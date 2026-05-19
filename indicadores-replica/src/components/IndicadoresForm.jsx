@@ -125,7 +125,7 @@ const FileUploadField = ({ id, label, subtitle }) => {
               ) : (
                 <div className="flex flex-col items-center text-slate-400">
                   <svg className="w-20 h-20 mb-4 text-teal-600/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                  <p>Previsualización no disponible para este tipo de archivo.</p>
+                  <p>Previsualización no disponible para este tipo de archivo</p>
                 </div>
               )}
             </div>
