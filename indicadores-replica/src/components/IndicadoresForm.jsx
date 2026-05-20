@@ -136,7 +136,7 @@ const FileUploadField = ({ id, label, subtitle }) => {
   )
 }
 
-const TextInputField = ({ label, subtitle, defaultValue, placeholder = "", isNumeric = false }) => {
+const TextInputField = ({ label, subtitle, defaultValue, placeholder = "", isNumeric = false, onChange }) => {
   const [value, setValue] = useState(defaultValue || '');
   const [error, setError] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -164,6 +164,10 @@ const TextInputField = ({ label, subtitle, defaultValue, placeholder = "", isNum
       } else {
         setError(false);
       }
+    }
+
+    if (onChange) {
+      onChange(val);
     }
   };
 
@@ -233,9 +237,17 @@ const SelectInputField = ({ label, subtitle, options, placeholder = "Seleccionar
 
 const IndicadoresForm = () => {
   const [hotelSeleccionado, setHotelSeleccionado] = useState('')
+  const [totalEnergia, setTotalEnergia] = useState('')
+  const [energiaSec1, setEnergiaSec1] = useState('')
+  const [energiaSec2, setEnergiaSec2] = useState('')
+  const [energiaSec3, setEnergiaSec3] = useState('')
 
   const manejarCambioHotel = (e) => {
     setHotelSeleccionado(e.target.value)
+    setTotalEnergia('')
+    setEnergiaSec1('')
+    setEnergiaSec2('')
+    setEnergiaSec3('')
   }
   
   return (
@@ -272,14 +284,70 @@ const IndicadoresForm = () => {
           <div className="space-y-6 md:space-y-8">
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
               <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Consumo de Energía Eléctrica</h2>
-              <TextInputField label="4. Consumo de energía eléctrica TOTAL del mes" subtitle="Dato final tomado del o los recibos de la compañía de luz" placeholder="0.00" />
+              <TextInputField label="4. Consumo de energía eléctrica TOTAL del mes" subtitle="Dato final tomado del o los recibos de la compañía de luz" placeholder="0.00" onChange={setTotalEnergia} />
               <TextInputField label="5. Costo Total del consumo de energía eléctrica del mes" subtitle="En moneda local (Dato tomado del recibo de la compañía de luz)" placeholder="$0.00" />
               <TextInputField label="6. Primera sección del Hotel a Reportar consumo de energía"/>
-              <TextInputField label="7. ¿Cuál es el consumo de energía eléctrica del mes para la primera sección?" placeholder="0.00"/>
+              <TextInputField label="7. ¿Cuál es el consumo de energía eléctrica del mes para la primera sección?" placeholder="0.00" onChange={setEnergiaSec1} />
               <TextInputField label="8. Segunda sección del Hotel a reportar consumo de energía" />
-              <TextInputField label="9. ¿Cuál es el consumo de energía eléctrica del mes para la segunda sección?" placeholder='0.00'/>
+              <TextInputField label="9. ¿Cuál es el consumo de energía eléctrica del mes para la segunda sección?" placeholder='0.00' onChange={setEnergiaSec2} />
               <TextInputField label="10. Tercera sección del Hotel a reportar consumo de energía" />
-              <TextInputField label="11. ¿Cuál es el consumo de energía eléctrica del mes para la tercera sección?" placeholder='0.00'/>
+              <TextInputField label="11. ¿Cuál es el consumo de energía eléctrica del mes para la tercera sección?" placeholder='0.00' onChange={setEnergiaSec3} />
+
+              {/* Validación de sumatoria de energía en EDR */}
+              {(() => {
+                const parseNum = (val) => {
+                  if (!val) return 0;
+                  const cleaned = val.replace(/[$ ]/g, '').replace(',', '.');
+                  const num = Number(cleaned);
+                  return isNaN(num) ? 0 : num;
+                };
+
+                const totalVal = parseNum(totalEnergia);
+                const sec1Val = parseNum(energiaSec1);
+                const sec2Val = parseNum(energiaSec2);
+                const sec3Val = parseNum(energiaSec3);
+                const sumSecciones = sec1Val + sec2Val + sec3Val;
+                
+                // Show validation status only if some values are entered
+                const hasValues = totalEnergia || energiaSec1 || energiaSec2 || energiaSec3;
+                if (!hasValues) return null;
+
+                const match = Math.abs(sumSecciones - totalVal) < 0.01;
+
+                return (
+                  <div className={`p-4 rounded-2xl border transition-all duration-300 flex flex-col sm:flex-row sm:items-center gap-3 shadow-sm ${
+                    match 
+                      ? 'bg-emerald-50/80 border-emerald-200 text-emerald-800' 
+                      : 'bg-amber-50/80 border-amber-200 text-amber-800 font-medium'
+                  }`}>
+                    <div className="flex-shrink-0">
+                      {match ? (
+                        <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                      )}
+                    </div>
+                    <div className="flex-grow">
+                      <p className="text-sm">
+                        {match ? (
+                          <span>
+                            La suma de las tres secciones coincide con el consumo total.
+                          </span>
+                        ) : (
+                          <span>
+                            La suma de las tres secciones no coincide con el consumo total del mes. Diferencia: <strong className="underline text-red-600 font-bold">{Math.abs(totalVal - sumSecciones).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>.
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })()}
+
               <FileUploadField label="12. Adjunta por favor los recibos de electricidad del mes, por ambos lados"/>
             </div>
 
