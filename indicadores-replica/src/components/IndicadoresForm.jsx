@@ -308,29 +308,29 @@ const TableCaptureCard = ({ title, subtitle, columns, values, onChange, children
 };
 
 const columnasElectricidadEDR = [
-  { key: 'total', label: '4. Consumo TOTAL', unit: 'kWh', placeholder: '0.00' },
-  { key: 'sec1', label: '5. Medidor JLMA', unit: 'kWh', placeholder: '0.00' },
-  { key: 'sec2', label: '6. Medidor DPL', unit: 'kWh', placeholder: '0.00' },
-  { key: 'sec3', label: '7. Medidor DPPB', unit: 'kWh', placeholder: '0.00' }
+  { key: 'total', label: '5. Consumo TOTAL', unit: 'kWh', placeholder: '0.00' },
+  { key: 'sec1', label: '6. Medidor JLMA', unit: 'kWh', placeholder: '0.00' },
+  { key: 'sec2', label: '7. Medidor DPL', unit: 'kWh', placeholder: '0.00' },
+  { key: 'sec3', label: '8. Medidor DPPB', unit: 'kWh', placeholder: '0.00' }
 ];
 
 const columnasCombustibles = [
-  { key: 'gasLP', label: '10. Gas LP', unit: 'Litros', placeholder: '0.00' },
-  { key: 'diesel', label: '11. Diesel', unit: 'Litros', placeholder: '0.00' },
-  { key: 'gasolina', label: '12. Gasolina', unit: 'Litros', placeholder: '0.00' },
-  { key: 'lena', label: '13. Leña', unit: 'Kilogramos', placeholder: '0.00' },
-  { key: 'carbon', label: '14. Carbón', unit: 'Kilogramos', placeholder: '0.00' }
+  { key: 'gasLP', label: '11. Gas LP', unit: 'Litros', placeholder: '0.00' },
+  { key: 'diesel', label: '12. Diesel', unit: 'Litros', placeholder: '0.00' },
+  { key: 'gasolina', label: '13. Gasolina', unit: 'Litros', placeholder: '0.00' },
+  { key: 'lena', label: '14. Leña', unit: 'Kilogramos', placeholder: '0.00' },
+  { key: 'carbon', label: '15. Carbón', unit: 'Kilogramos', placeholder: '0.00' }
 ];
 
 const columnasAgua = [
-  { key: 'potable', label: '25. Agua Consumida', unit: 'm³', placeholder: '0.00' },
-  { key: 'pozos', label: '26. Pozos Extracción', unit: 'm³', placeholder: '0.00' },
-  { key: 'osmosisProd', label: '27. Prod. Ósmosis', unit: 'm³', placeholder: '0.00' },
-  { key: 'osmosisRechazo', label: '28. Rechazo Ósm.', unit: 'm³', placeholder: '0.00' },
-  { key: 'ptarPozo', label: '29. PTAR a Pozo', unit: 'm³', placeholder: '0.00' },
-  { key: 'ptarRiego', label: '30. PTAR a Riego', unit: 'm³', placeholder: '0.00' },
-  { key: 'lavanderia', label: '31. Lavandería', unit: 'm³', placeholder: '0.00' },
-  { key: 'retrolavados', label: '32. Retrolavados', unit: 'm³', placeholder: '0.00' }
+  { key: 'potable', label: '26. Agua Consumida', unit: 'm³', placeholder: '0.00' },
+  { key: 'pozos', label: '27. Pozos Extracción', unit: 'm³', placeholder: '0.00' },
+  { key: 'osmosisProd', label: '28. Prod. Ósmosis', unit: 'm³', placeholder: '0.00' },
+  { key: 'osmosisRechazo', label: '29. Rechazo Ósm.', unit: 'm³', placeholder: '0.00' },
+  { key: 'ptarPozo', label: '30. PTAR a Pozo', unit: 'm³', placeholder: '0.00' },
+  { key: 'ptarRiego', label: '31. PTAR a Riego', unit: 'm³', placeholder: '0.00' },
+  { key: 'lavanderia', label: '32. Lavandería', unit: 'm³', placeholder: '0.00' },
+  { key: 'retrolavados', label: '33. Retrolavados', unit: 'm³', placeholder: '0.00' }
 ];
 
 const columnasCombustiblesOtros = [
@@ -533,8 +533,8 @@ const IndicadoresForm = () => {
               <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
                 <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Costo y Soportes de Electricidad</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <TextInputField label="8. Costo Total del consumo de energía eléctrica del mes" subtitle="En moneda local (Dato tomado del recibo de la compañía de luz)" placeholder="$0.00" />
-                  <FileUploadField label="9. Adjunta por favor los recibos de electricidad del mes, por ambos lados"/>
+                  <TextInputField label="9. Costo Total del consumo de energía eléctrica del mes" subtitle="En moneda local (Dato tomado del recibo de la compañía de luz)" placeholder="$0.00" />
+                  <FileUploadField label="10. Adjunta por favor los recibos de electricidad del mes, por ambos lados"/>
                 </div>
               </div>
             </div>
@@ -553,16 +553,16 @@ const IndicadoresForm = () => {
                 <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Costos y Soportes de Combustibles</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="md:col-span-2">
-                    <TextInputField label="15. ¿Cuál fue el costo total de Gas LP del mes?" subtitle="Moneda nacional" placeholder="$0.00" />
+                    <TextInputField label="16. ¿Cuál fue el costo total de Gas LP del mes?" subtitle="Moneda nacional" placeholder="$0.00" />
                   </div>
-                  <FileUploadField label="16. Adjunta las facturas de Gas Lp del período del mes."/>
-                  <FileUploadField label="17. Adjunta la bitácora de consumo de Gas Lp del mes."/>
-                  <FileUploadField label="18. Adjunta las facturas de Diesel del mes" />
-                  <FileUploadField label="19. Adjunta la bitácora de consumo de Diesel del mes" />
-                  <FileUploadField label="20. Adjunta las facturas de Gasolina del mes" />
-                  <FileUploadField label="21. Adjunta la bitácora de consumo de Gasolina del mes" />
-                  <FileUploadField label="22. Adjunta las facturas de Leña del mes" />
-                  <FileUploadField label="23. Adjunta las facturas de carbón vegetal del mes" />
+                  <FileUploadField label="17. Adjunta las facturas de Gas Lp del período del mes."/>
+                  <FileUploadField label="18. Adjunta la bitácora de consumo de Gas Lp del mes."/>
+                  <FileUploadField label="19. Adjunta las facturas de Diesel del mes" />
+                  <FileUploadField label="20. Adjunta la bitácora de consumo de Diesel del mes" />
+                  <FileUploadField label="21. Adjunta las facturas de Gasolina del mes" />
+                  <FileUploadField label="22. Adjunta la bitácora de consumo de Gasolina del mes" />
+                  <FileUploadField label="23. Adjunta las facturas de Leña del mes" />
+                  <FileUploadField label="24. Adjunta las facturas de carbón vegetal del mes" />
                 </div>
               </div>
             </div>
@@ -576,52 +576,52 @@ const IndicadoresForm = () => {
                 values={aguaEDR}
                 onChange={handleCambioAguaEDR}
               >
-                <TextInputField label="24. ¿Cuál es la fuente del agua potable?" placeholder="Escriba aquí" />
+                <TextInputField label="25. ¿Cuál es la fuente del agua potable?" placeholder="Escriba aquí" />
               </TableCaptureCard>
 
               <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
                 <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Detalles y Soportes del Consumo de Agua</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <TextInputField label="33. Durante el mes, ¿hubo alguna situación que impidiera la toma de lecturas de los medidores? Por favor detalla qué fue lo que pasó." placeholder="Escriba aquí" />
-                  <FileUploadField label="34. Adjunta la bitácora de consumo de agua del mes así como el soporte de las lecturas de los medidores." />
-                  <FileUploadField label="35. Adjuntar evidencia del reporte enviado a los Gestores externos del Grupo" subtitle="Correo, informe, etc." />
+                  <TextInputField label="34. Durante el mes, ¿hubo alguna situación que impidiera la toma de lecturas de los medidores? Por favor detalla qué fue lo que pasó." placeholder="Escriba aquí" />
+                  <FileUploadField label="35. Adjunta la bitácora de consumo de agua del mes así como el soporte de las lecturas de los medidores." />
+                  <FileUploadField label="36. Adjuntar evidencia del reporte enviado a los Gestores externos del Grupo" subtitle="Correo, informe, etc." />
                 </div>
               </div>
             </div>
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
               <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Reporte de energéticos</h2>
-              <FileUploadField label="36. Adjunta el reporte de energéticos del mes, en versión final."/>
+              <FileUploadField label="37. Adjunta el reporte de energéticos del mes, en versión final."/>
             </div>
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
               <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Residuos peligrosos y de manejo especial</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FileUploadField label="37. Adjunte el manifiesto de recolección de Trampas de grasa (Cárcamos)" />
-                <FileUploadField label="38. Adjunte el manifiesto de recolección de Trampas de grasa (Campanas)" />
-                <FileUploadField label="39. Adjunte el manifiesto de recolección de Residuos Peligrosos" />
-                <FileUploadField label="40. Adjunte el manifiesto de recolección de Escombros" />
+                <FileUploadField label="38. Adjunte el manifiesto de recolección de Trampas de grasa (Cárcamos)" />
+                <FileUploadField label="39. Adjunte el manifiesto de recolección de Trampas de grasa (Campanas)" />
+                <FileUploadField label="40. Adjunte el manifiesto de recolección de Residuos Peligrosos" />
+                <FileUploadField label="41. Adjunte el manifiesto de recolección de Escombros" />
               </div>
             </div>
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
               <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Sargazo</h2>
                 <div className="md:col-span-2">
-                  <TextInputField label="41. Volumen de sargazo registrado" subtitle="Metros cúbicos" placeholder="0.00" />
+                  <TextInputField label="42. Volumen de sargazo registrado" subtitle="Metros cúbicos" placeholder="0.00" />
                 </div>
                 <div className="md:col-span-2">
-                  <FileUploadField label="45. Adjunte el manifiesto de recolección de Sargazo" />
+                  <FileUploadField label="43. Adjunte el manifiesto de recolección de Sargazo" />
                 </div>
-              <FileUploadField label="46. Adjunta el reporte de retiro de sargazo (bitácora)" subtitle="Cargar archivo."/>
+              <FileUploadField label="44. Adjunta el reporte de retiro de sargazo (bitácora)" subtitle="Cargar archivo."/>
             </div>
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
               <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Datos de llenado</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <TextInputField label="47. Nombre de quien llenó el cuestionario." placeholder="Escriba aquí" />
-                <TextInputField label="48. Puesto de quien llenó el cuestionario." placeholder="Escriba aquí" />
+                <TextInputField label="45. Nombre de quien llenó el cuestionario." placeholder="Escriba aquí" />
+                <TextInputField label="46. Puesto de quien llenó el cuestionario." placeholder="Escriba aquí" />
                 <div className="md:col-span-2">
-                  <TextInputField label="49. Correo electrónico" placeholder="Escriba aquí" />
+                  <TextInputField label="47. Correo electrónico" placeholder="Escriba aquí" />
                 </div>
               </div>
             </div>
