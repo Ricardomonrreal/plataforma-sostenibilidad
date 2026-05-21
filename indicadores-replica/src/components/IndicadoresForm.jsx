@@ -136,7 +136,7 @@ const FileUploadField = ({ id, label, subtitle }) => {
   )
 }
 
-const TextInputField = ({ label, subtitle, defaultValue, placeholder = "", isNumeric = false, onChange }) => {
+const TextInputField = ({ label, subtitle, defaultValue, placeholder = "", isNumeric = false, isTextArea = false, onChange }) => {
   const [value, setValue] = useState(defaultValue || '');
   const [error, setError] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -191,19 +191,34 @@ const TextInputField = ({ label, subtitle, defaultValue, placeholder = "", isNum
         </label>
         {subtitle && <span className="text-xs text-teal-700 font-bold mb-1">{subtitle}</span>}
       </div>
-      <input 
-        type="text" 
-        className={`border w-full rounded-xl h-12 px-4 py-2 text-slate-800 transition-all duration-300 focus:outline-none ${
-          error 
-            ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
-            : 'border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100'
-        }`} 
-        placeholder={placeholder} 
-        value={isFocused ? value : displayValue}
-        onChange={handleChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      />
+      {isTextArea ? (
+        <textarea
+          className={`border w-full rounded-xl h-28 px-4 py-3 text-slate-800 transition-all duration-300 focus:outline-none resize-none ${
+            error 
+              ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
+              : 'border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100'
+          }`} 
+          placeholder={placeholder} 
+          value={value}
+          onChange={handleChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        />
+      ) : (
+        <input 
+          type="text" 
+          className={`border w-full rounded-xl h-12 px-4 py-2 text-slate-800 transition-all duration-300 focus:outline-none ${
+            error 
+              ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
+              : 'border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100'
+          }`} 
+          placeholder={placeholder} 
+          value={isFocused ? value : displayValue}
+          onChange={handleChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        />
+      )}
       {error && <span className="text-xs text-red-500 font-semibold mt-1">Por favor ingrese un valor numérico válido.</span>}
     </div>
   )
@@ -582,7 +597,7 @@ const IndicadoresForm = () => {
               <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
                 <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Detalles y Soportes del Consumo de Agua</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <TextInputField label="34. Durante el mes, ¿hubo alguna situación que impidiera la toma de lecturas de los medidores? Por favor detalla qué fue lo que pasó." placeholder="Escriba aquí" />
+                  <TextInputField label="34. Durante el mes, ¿hubo alguna situación que impidiera la toma de lecturas de los medidores? Por favor detalla qué fue lo que pasó." placeholder="Escriba aquí" isTextArea={true} />
                   <FileUploadField label="35. Adjunta la bitácora de consumo de agua del mes así como el soporte de las lecturas de los medidores." />
                   <FileUploadField label="36. Adjuntar evidencia del reporte enviado a los Gestores externos del Grupo" subtitle="Correo, informe, etc." />
                 </div>
@@ -684,7 +699,7 @@ const IndicadoresForm = () => {
               <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
                 <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Detalles y Soportes del Consumo de Agua</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <TextInputField label="31. Durante el mes, ¿hubo alguna situación que impidiera la toma de lecturas de los medidores? Por favor detalla qué fue lo que pasó." placeholder="Escriba aquí" />
+                  <TextInputField label="31. Durante el mes, ¿hubo alguna situación que impidiera la toma de lecturas de los medidores? Por favor detalla qué fue lo que pasó." placeholder="Escriba aquí" isTextArea={true} />
                   <FileUploadField label="32. Adjunta la bitácora de consumo de agua del mes así como el soporte de las lecturas de los medidores." />
                   <FileUploadField label="33. Adjuntar evidencia del reporte enviado a los Gestores externos del Grupo" subtitle="Correo, informe, etc." />
                 </div>
