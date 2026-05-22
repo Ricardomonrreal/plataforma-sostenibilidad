@@ -1,20 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { FileUploadField, TextInputField, TableCaptureCard } from './FormComponents'
+
+const columnasResiduos = [
+  { key: 'organicos', label: '5. Orgánicos Generados', unit: 'Kg', placeholder: '0.00' },
+  { key: 'inorganicos', label: '6. Inorgánicos Generados', unit: 'Kg', placeholder: '0.00' },
+  { key: 'organicosgranja', label: '7. Orgánicos Generados Reutilización', unit: 'Kg', placeholder: '0.00' },
+];
 
 const ContraloriaForm = ({ hotelSeleccionado }) => {
+  const [residuos, setResiduos] = useState({
+    organicos: '',
+    inorganicos: '',
+    organicosgranja: ''
+  })
+
+  const [comentarios, setComentarios] = useState('')
+
+  const handleCambioResiduos = (key, val) => {
+    setResiduos(prev => ({ ...prev, [key]: val }))
+  }
+
   return (
-    <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 text-center space-y-4 py-12">
-      <div className="mx-auto w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center text-teal-600">
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-        </svg>
-      </div>
-      <div className="space-y-2">
-        <h3 className="font-bold text-slate-800 text-lg md:text-xl">Formulario de Contraloría</h3>
-        <p className="text-sm text-teal-700 font-semibold">{hotelSeleccionado}</p>
-        <p className="text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
-          Este módulo está listo para recibir el cuestionario específico del grupo de Contraloría. Próximamente se integrarán las preguntas correspondientes aquí.
+    <div className="space-y-6 md:space-y-8">
+      {/* Sección de Contraloría */}
+      <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
+        <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">
+          Cuestionario de Contraloría ({hotelSeleccionado})
+        </h2>
+        
+        <p className="text-xs text-teal-600 font-bold mb-4">
+          Modifique este archivo en `src/components/ContraloriaForm.jsx` para ir agregando sus preguntas.
         </p>
+
+        {/* Ejemplos de inputs de Contraloría */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <TextInputField 
+            label="1. Observaciones Financieras y de Control del mes" 
+            placeholder="Escriba aquí sus comentarios..." 
+            isTextArea={true}
+            value={comentarios}
+            onChange={setComentarios}
+          />
+          <FileUploadField 
+            label="2. Adjuntar reportes de auditoría o facturas de control" 
+          />
+        </div>
       </div>
+
+      {/* Ejemplo de Tabla de Residuos */}
+      <TableCaptureCard 
+        title="Generación de Residuos (Contraloría)"
+        subtitle="Muestra de captura en formato de tabla para datos numéricos de Contraloría"
+        columns={columnasResiduos}
+        values={residuos}
+        onChange={handleCambioResiduos}
+      />
     </div>
   )
 }

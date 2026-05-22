@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FileUploadField, TextInputField, TableCaptureCard } from './FormComponents'
+import { FileUploadField, TextInputField, TableCaptureCard, FormSectionDivider } from './FormComponents'
 
 const columnasElectricidadEDR = [
   { key: 'total', label: '5. Consumo TOTAL', unit: 'kWh', placeholder: '0.00' },
@@ -13,7 +13,7 @@ const columnasCombustibles = [
   { key: 'diesel', label: '12. Diesel', unit: 'Litros', placeholder: '0.00' },
   { key: 'gasolina', label: '13. Gasolina', unit: 'Litros', placeholder: '0.00' },
   { key: 'lena', label: '14. Leña', unit: 'Kilogramos', placeholder: '0.00' },
-  { key: 'carbon', label: '15. Carbón', unit: 'Kilogramos', placeholder: '0.00' }
+  { key: 'carbon', label: '15. Carbón Vegetal', unit: 'Kilogramos', placeholder: '0.00' }
 ];
 
 const columnasAgua = [
@@ -32,7 +32,7 @@ const columnasCombustiblesOtros = [
   { key: 'diesel', label: '9. Diesel', unit: 'Litros', placeholder: '0.00' },
   { key: 'gasolina', label: '10. Gasolina', unit: 'Litros', placeholder: '0.00' },
   { key: 'lena', label: '11. Leña', unit: 'Kilogramos', placeholder: '0.00' },
-  { key: 'carbon', label: '12. Carbón', unit: 'Kilogramos', placeholder: '0.00' }
+  { key: 'carbon', label: '12. Carbón Vegetal', unit: 'Kilogramos', placeholder: '0.00' }
 ];
 
 const columnasAguaOtros = [
@@ -108,6 +108,17 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
     <>
       {hotelSeleccionado === 'El Dorado Royale (EDR)' && (
         <div className="space-y-6 md:space-y-8">
+          {/* Sección I: Energía Eléctrica */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            }
+            title="Consumo de Energía Eléctrica"
+            description="Registro mensual del consumo eléctrico del hotel (Total y soportes en formato digital)."
+          />
+
           {/* Seccion de Energia Electrica EDR */}
           <div className="space-y-6">
             <TableCaptureCard 
@@ -184,7 +195,7 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             })()}
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-              <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Costo y Soportes de Electricidad</h3>
+              <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Costo y Soportes de Electricidad</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <TextInputField label="9. Costo Total del consumo de energía eléctrica del mes" subtitle="En moneda local (Dato tomado del recibo de la compañía de luz)" placeholder="$0.00" />
                 <FileUploadField label="10. Adjunta por favor los recibos de electricidad del mes, por ambos lados"/>
@@ -192,18 +203,30 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             </div>
           </div>
 
+          {/* Sección II: Combustibles */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.657 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9.879z" />
+              </svg>
+            }
+            title="Consumo de Combustibles"
+            description="Captura de volumen de combustibles utilizados (Gas LP, Diesel, Gasolina, Leña, Carbón Vegetal) y sus comprobantes."
+          />
+
           {/* Seccion de Combustibles EDR */}
           <div className="space-y-6">
             <TableCaptureCard 
               title="Consumo de Combustibles"
-              subtitle="Captura horizontal de consumo de Gas LP, Diesel, Gasolina (Litros), Leña y Carbón (Kilogramos)"
+              subtitle="Captura horizontal de consumo de Gas LP, Diesel, Gasolina (Litros), Leña y Carbón Vegetal (Kilogramos)"
               columns={columnasCombustibles}
               values={combustiblesEDR}
               onChange={handleCambioCombustiblesEDR}
             />
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-              <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Costos y Soportes de Combustibles</h3>
+              <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Costos y Soportes de Combustibles</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
                   <TextInputField label="16. ¿Cuál fue el costo total de Gas LP del mes?" subtitle="Moneda nacional" placeholder="$0.00" />
@@ -215,10 +238,21 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
                 <FileUploadField label="21. Adjunta las facturas de Gasolina del mes" />
                 <FileUploadField label="22. Adjunta la bitácora de consumo de Gasolina del mes" />
                 <FileUploadField label="23. Adjunta las facturas de Leña del mes" />
-                <FileUploadField label="24. Adjunta las facturas de carbón vegetal del mes" />
+                <FileUploadField label="24. Adjunta las facturas de Carbón Vegetal vegetal del mes" />
               </div>
             </div>
           </div>
+
+          {/* Sección III: Consumo de Agua */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 21.5c4.14 0 7.5-3.36 7.5-7.5C19.5 7.5 12 2.5 12 2.5S4.5 7.5 4.5 14c0 4.14 3.36 7.5 7.5 7.5z" />
+              </svg>
+            }
+            title="Consumo de Agua"
+            description="Registro y control de las fuentes de abastecimiento de agua potable y volúmenes mensuales consumidos/tratados."
+          />
 
           {/* Seccion de Agua EDR */}
           <div className="space-y-6">
@@ -233,7 +267,7 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             </TableCaptureCard>
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-              <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Detalles y Soportes del Consumo de Agua</h3>
+              <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Detalles y Soportes del Consumo de Agua</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <TextInputField label="34. Durante el mes, ¿hubo alguna situación que impidiera la toma de lecturas de los medidores? Por favor detalla qué fue lo que pasó." placeholder="Escriba aquí" isTextArea={true} />
                 <FileUploadField label="35. Adjunta la bitácora de consumo de agua del mes así como el soporte de las lecturas de los medidores." />
@@ -242,13 +276,35 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             </div>
           </div>
 
+          {/* Sección IV: Reporte de Energéticos */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            }
+            title="Reporte de Energéticos"
+            description="Carga del informe consolidado final de energéticos correspondientes al mes."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Reporte de energéticos</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Reporte de energéticos</h3>
             <FileUploadField label="37. Adjunta el reporte de energéticos del mes, en versión final."/>
           </div>
 
+          {/* Sección V: Residuos Especiales y Peligrosos */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            }
+            title="Residuos Especiales y Peligrosos"
+            description="Manifiestos de recolección autorizados para trampas de grasa, residuos peligrosos y escombros."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Residuos peligrosos y de manejo especial</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Residuos peligrosos y de manejo especial</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FileUploadField label="38. Adjunte el manifiesto de recolección de Trampas de grasa (Cárcamos)" />
               <FileUploadField label="39. Adjunte el manifiesto de recolección de Trampas de grasa (Campanas)" />
@@ -257,8 +313,19 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             </div>
           </div>
 
+          {/* Sección VI: Control de Sargazo */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0M3 14c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0" />
+              </svg>
+            }
+            title="Control de Sargazo"
+            description="Registro del volumen mensual recolectado de sargazo y carga de bitácoras y manifiestos de retiro."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Sargazo</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Sargazo</h3>
               <div className="md:col-span-2">
                 <TextInputField label="42. Volumen de sargazo registrado" subtitle="Metros cúbicos" placeholder="0.00" />
               </div>
@@ -268,8 +335,19 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             <FileUploadField label="44. Adjunta el reporte de retiro de sargazo (bitácora)" subtitle="Cargar archivo."/>
           </div>
 
+          {/* Sección VII: Datos de Llenado */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            }
+            title="Datos de Llenado"
+            description="Identificación de la persona responsable de la veracidad de los datos entregados."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Datos de llenado</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Datos de llenado</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <TextInputField label="45. Nombre de quien llenó el cuestionario." placeholder="Escriba aquí" />
               <TextInputField label="46. Puesto de quien llenó el cuestionario." placeholder="Escriba aquí" />
@@ -283,8 +361,19 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
 
       {hotelSeleccionado !== '' && hotelSeleccionado !== 'El Dorado Royale (EDR)' && (
         <div className="space-y-6 md:space-y-8">
+          {/* Sección I: Energía Eléctrica */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            }
+            title="Consumo de Energía Eléctrica"
+            description="Registro mensual del consumo eléctrico del hotel (Total y soportes en formato digital)."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Consumo de Energía Eléctrica</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Consumo de Energía Eléctrica</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <TextInputField label="5. Consumo de energía eléctrica TOTAL del mes" subtitle="Dato final tomado del o los recibos de la compañía de luz" placeholder="0.00" />
               <TextInputField label="6. Costo Total del consumo de energía eléctrica del mes" subtitle="En moneda local (Dato tomado del recibo de la compañía de luz)." placeholder="$0.00" />
@@ -294,18 +383,30 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             </div>
           </div>
           
+          {/* Sección II: Combustibles */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.657 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9.879z" />
+              </svg>
+            }
+            title="Consumo de Combustibles"
+            description="Captura de volumen de combustibles utilizados (Gas LP, Diesel, Gasolina, Leña, Carbón Vegetal Vegetal) y sus comprobantes."
+          />
+
           {/* Seccion de Combustibles Otros Hoteles */}
           <div className="space-y-6">
             <TableCaptureCard 
               title="Consumo de Combustibles"
-              subtitle="Captura horizontal de consumo de Gas LP, Diesel, Gasolina (Litros), Leña y Carbón (Kilogramos)"
+              subtitle="Captura horizontal de consumo de Gas LP, Diesel, Gasolina (Litros), Leña y Carbón Vegetal Vegetal (Kilogramos)"
               columns={columnasCombustiblesOtros}
               values={combustiblesOtros}
               onChange={handleCambioCombustiblesOtros}
             />
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-              <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Costos y Soportes de Combustibles</h3>
+              <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Costos y Soportes de Combustibles</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
                   <TextInputField label="13. ¿Cuál fue el costo total de Gas LP del mes?" subtitle="Moneda nacional" placeholder="$0.00" />
@@ -317,10 +418,21 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
                 <FileUploadField label="18. Adjunta las facturas de Gasolina del mes" />
                 <FileUploadField label="19. Adjunta la bitácora de consumo de Gasolina del mes" />
                 <FileUploadField label="20. Adjunta las facturas de Leña del mes" />
-                <FileUploadField label="21. Adjunta las facturas de carbón vegetal del mes" />
+                <FileUploadField label="21. Adjunta las facturas de Carbón Vegetal vegetal del mes" />
               </div>
             </div>
           </div>
+
+          {/* Sección III: Consumo de Agua */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 21.5c4.14 0 7.5-3.36 7.5-7.5C19.5 7.5 12 2.5 12 2.5S4.5 7.5 4.5 14c0 4.14 3.36 7.5 7.5 7.5z" />
+              </svg>
+            }
+            title="Consumo de Agua"
+            description="Registro y control de las fuentes de abastecimiento de agua potable y volúmenes mensuales consumidos/tratados."
+          />
 
           {/* Seccion de Agua Otros Hoteles */}
           <div className="space-y-6">
@@ -335,7 +447,7 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             </TableCaptureCard>
 
             <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-              <h3 className="text-teal-700 font-bold text-base md:text-lg border-b border-teal-100/50 pb-2">Detalles y Soportes del Consumo de Agua</h3>
+              <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Detalles y Soportes del Consumo de Agua</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <TextInputField label="31. Durante el mes, ¿hubo alguna situación que impidiera la toma de lecturas de los medidores? Por favor detalla qué fue lo que pasó." placeholder="Escriba aquí" isTextArea={true} />
                 <FileUploadField label="32. Adjunta la bitácora de consumo de agua del mes así como el soporte de las lecturas de los medidores." />
@@ -344,13 +456,35 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             </div>
           </div>
 
+          {/* Sección IV: Reporte de Energéticos */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            }
+            title="Reporte de Energéticos"
+            description="Carga del informe consolidado final de energéticos correspondientes al mes."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Reporte de energéticos</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Reporte de energéticos</h3>
             <FileUploadField label="34. Adjunta el reporte de energéticos del mes, en versión final."/>
           </div>
 
+          {/* Sección V: Residuos Especiales y Peligrosos */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            }
+            title="Residuos Especiales y Peligrosos"
+            description="Manifiestos de recolección autorizados para trampas de grasa, residuos peligrosos y escombros."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Residuos peligrosos y de manejo especial</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Residuos peligrosos y de manejo especial</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FileUploadField label="35. Adjunte el manifiesto de recolección de Trampas de grasa (Cárcamos)" />
               <FileUploadField label="36. Adjunte el manifiesto de recolección de Trampas de grasa (Campanas)" />
@@ -359,8 +493,19 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             </div>
           </div>
           
+          {/* Sección VI: Control de Sargazo */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0M3 14c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0" />
+              </svg>
+            }
+            title="Control de Sargazo"
+            description="Registro del volumen mensual recolectado de sargazo y carga de bitácoras y manifiestos de retiro."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Sargazo</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Sargazo</h3>
               <div className="md:col-span-2">
                 <TextInputField label="39. Volumen de sargazo registrado" subtitle="Metros cúbicos" placeholder="0.00" />
               </div>
@@ -370,8 +515,19 @@ const MantenimientoForm = ({ hotelSeleccionado }) => {
             <FileUploadField label="41. Adjunta el reporte de retiro de sargazo (bitácora)" subtitle="Cargar archivo."/>
           </div>
           
+          {/* Sección VII: Datos de Llenado */}
+          <FormSectionDivider
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            }
+            title="Datos de Llenado"
+            description="Identificación de la persona responsable de la veracidad de los datos entregados."
+          />
+
           <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
-            <h2 className="text-teal-700 font-bold text-xl md:text-2xl border-b border-teal-100/50 pb-3">Datos de llenado</h2>
+            <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Datos de llenado</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <TextInputField label="42. Nombre de quien llenó el cuestionario." placeholder="Escriba aquí" />
               <TextInputField label="43. Puesto de quien llenó el cuestionario." placeholder="Escriba aquí" />

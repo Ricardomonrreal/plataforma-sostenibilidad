@@ -51,12 +51,11 @@ export const FileUploadField = ({ id, label, subtitle }) => {
     <div className="flex flex-col w-full gap-1 mb-2">
       <label className="text-sm md:text-base text-slate-700 font-semibold">{label}</label>
       {subtitle && <span className="text-xs text-teal-700 font-bold mb-2">{subtitle}</span>}
-      <div 
-        className={`border-dashed rounded-2xl w-full min-h-[120px] flex items-center justify-center cursor-pointer transition-all duration-300 p-4 ${
-          isDragging 
-            ? 'border-2 border-teal-500 bg-teal-50/80 scale-[1.02]' 
+      <div
+        className={`border-dashed rounded-2xl w-full min-h-[120px] flex items-center justify-center cursor-pointer transition-all duration-300 p-4 ${isDragging
+            ? 'border-2 border-teal-500 bg-teal-50/80 scale-[1.02]'
             : 'border border-slate-200 hover:border-teal-400 hover:bg-teal-50/30 bg-slate-50/50'
-        }`}
+          }`}
         onClick={() => fileInputRef.current?.click()}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -75,7 +74,7 @@ export const FileUploadField = ({ id, label, subtitle }) => {
         <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {files.map(f => (
             <div key={f.id} onClick={() => setPreviewFile(f)} className="relative group rounded-xl border border-slate-200 bg-white p-2 flex flex-col items-center justify-center gap-2 shadow-sm hover:border-teal-300 transition-colors cursor-pointer">
-              <button 
+              <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); removeFile(f.id); }}
                 className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-md hover:bg-red-600 transition-transform hover:scale-110 z-10"
@@ -85,7 +84,7 @@ export const FileUploadField = ({ id, label, subtitle }) => {
                   <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
                 </svg>
               </button>
-              
+
               <div className="w-full h-16 flex items-center justify-center overflow-hidden rounded-lg bg-slate-50 relative">
                 {f.file.type.startsWith('image/') ? (
                   <img src={f.preview} alt={f.file.name} className="w-full h-full object-cover" />
@@ -143,20 +142,21 @@ export const TextInputField = ({ label, subtitle, defaultValue, placeholder = ""
 
   const isCurrency = placeholder.includes('$');
 
-  const numericMode = isNumeric || 
-    placeholder.includes('0.00') || 
-    isCurrency || 
+  const numericMode = isNumeric ||
+    placeholder.includes('0.00') ||
+    isCurrency ||
     (subtitle && (
-      subtitle.toLowerCase().includes('litros') || 
-      subtitle.toLowerCase().includes('nacional') || 
-      subtitle.toLowerCase().includes('kilogramos') || 
-      subtitle.toLowerCase().includes('metros cúbicos')
+      subtitle.toLowerCase().includes('litros') ||
+      subtitle.toLowerCase().includes('nacional') ||
+      subtitle.toLowerCase().includes('kilogramos') ||
+      subtitle.toLowerCase().includes('metros cúbicos') ||
+      subtitle.toLowerCase().includes('personas')
     ));
 
   const handleChange = (e) => {
     const val = e.target.value;
     setValue(val);
-    
+
     if (numericMode) {
       const cleanedVal = val.replace(/[$ ]/g, '').replace(',', '.');
       if (cleanedVal !== "" && isNaN(Number(cleanedVal))) {
@@ -193,26 +193,24 @@ export const TextInputField = ({ label, subtitle, defaultValue, placeholder = ""
       </div>
       {isTextArea ? (
         <textarea
-          className={`border w-full rounded-xl h-28 px-4 py-3 text-slate-800 transition-all duration-300 focus:outline-none resize-none ${
-            error 
-              ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
+          className={`border w-full rounded-xl h-28 px-4 py-3 text-slate-800 transition-all duration-300 focus:outline-none resize-none ${error
+              ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200'
               : 'border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100'
-          }`} 
-          placeholder={placeholder} 
+            }`}
+          placeholder={placeholder}
           value={value}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
       ) : (
-        <input 
-          type="text" 
-          className={`border w-full rounded-xl h-12 px-4 py-2 text-slate-800 transition-all duration-300 focus:outline-none ${
-            error 
-              ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200' 
+        <input
+          type="text"
+          className={`border w-full rounded-xl h-12 px-4 py-2 text-slate-800 transition-all duration-300 focus:outline-none ${error
+              ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200'
               : 'border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100'
-          }`} 
-          placeholder={placeholder} 
+            }`}
+          placeholder={placeholder}
           value={isFocused ? value : displayValue}
           onChange={handleChange}
           onFocus={() => setIsFocused(true)}
@@ -224,7 +222,7 @@ export const TextInputField = ({ label, subtitle, defaultValue, placeholder = ""
   )
 }
 
-export const SelectInputField = ({ label, subtitle, options, placeholder = "Seleccionar...", onChange}) => {
+export const SelectInputField = ({ label, subtitle, options, placeholder = "Seleccionar...", onChange }) => {
   return (
     <div className="flex flex-col w-full gap-1 mb-2">
       <div className="flex flex-col">
@@ -235,15 +233,15 @@ export const SelectInputField = ({ label, subtitle, options, placeholder = "Sele
       </div>
       <div className="relative">
         <select className="border border-slate-200 w-full rounded-xl h-12 px-4 py-2 text-slate-800 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all duration-300 appearance-none"
-                defaultValue=""
-                onChange={onChange}>
+          defaultValue=""
+          onChange={onChange}>
           <option value="" disabled>{placeholder}</option>
           {options.map((opt, idx) => (
             <option key={idx} value={opt}>{opt}</option>
           ))}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
-          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+          <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
         </div>
       </div>
     </div>
@@ -252,7 +250,7 @@ export const SelectInputField = ({ label, subtitle, options, placeholder = "Sele
 
 export const CellInput = ({ value, placeholder, onChange }) => {
   const [error, setError] = useState(false);
-  
+
   const handleChange = (e) => {
     const rawVal = e.target.value;
     const cleanedVal = rawVal.replace(/[$ ]/g, '').replace(',', '.');
@@ -263,16 +261,15 @@ export const CellInput = ({ value, placeholder, onChange }) => {
     }
     onChange(rawVal);
   };
-  
+
   return (
     <div className="relative flex items-center">
-      <input 
-        type="text" 
-        className={`w-full bg-white rounded-xl h-11 px-3 text-slate-800 text-sm border focus:outline-none transition-all duration-300 ${
-          error 
-            ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100 bg-red-50/20' 
+      <input
+        type="text"
+        className={`w-full bg-white rounded-xl h-11 px-3 text-slate-800 text-sm border focus:outline-none transition-all duration-300 ${error
+            ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-100 bg-red-50/20'
             : 'border-slate-200 focus:border-teal-400 focus:ring-2 focus:ring-teal-100 bg-white hover:bg-slate-50/50'
-        }`} 
+          }`}
         placeholder={placeholder || "0.00"}
         value={value}
         onChange={handleChange}
@@ -285,7 +282,7 @@ export const TableCaptureCard = ({ title, subtitle, columns, values, onChange, c
   return (
     <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-4">
       <div>
-        <h3 className="text-teal-700 font-bold text-base md:text-lg">{title}</h3>
+        <h3 className="text-teal-700 font-bold form-section-title">{title}</h3>
         {subtitle && <p className="text-xs text-teal-700 font-semibold mt-1">{subtitle}</p>}
       </div>
       {children}
@@ -307,7 +304,7 @@ export const TableCaptureCard = ({ title, subtitle, columns, values, onChange, c
             <tr className="divide-x divide-slate-100">
               {columns.map((col, idx) => (
                 <td key={idx} className="px-3 py-4 bg-slate-50/20 min-w-[140px]">
-                  <CellInput 
+                  <CellInput
                     value={values[col.key] || ''}
                     placeholder={col.placeholder}
                     onChange={(val) => onChange(col.key, val)}
@@ -318,6 +315,29 @@ export const TableCaptureCard = ({ title, subtitle, columns, values, onChange, c
           </tbody>
         </table>
       </div>
+    </div>
+  );
+};
+
+export const FormSectionDivider = ({ icon, title, description }) => {
+  return (
+    <div className="pt-8 pb-2 flex flex-col gap-1 border-t border-slate-200/50 first:border-0 first:pt-0 mt-8 first:mt-0">
+      <div className="flex items-center gap-3">
+        {icon && (
+          <div className="flex-shrink-0 text-teal-600 bg-teal-50/80 p-2.5 rounded-2xl border border-teal-100/30 shadow-sm flex items-center justify-center">
+            {icon}
+          </div>
+        )}
+        <div className="flex flex-col">
+          <span className="text-[10px] font-bold text-teal-600/80 uppercase tracking-widest">Sección</span>
+          <h4 className="text-slate-800 font-bold text-base md:text-lg -mt-0.5">{title}</h4>
+        </div>
+      </div>
+      {description && (
+        <p className="text-xs text-slate-500 font-medium mt-1.5 leading-relaxed max-w-2xl pl-1">
+          {description}
+        </p>
+      )}
     </div>
   );
 };
