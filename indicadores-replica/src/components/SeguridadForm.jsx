@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FileUploadField, TextInputField, TableCaptureCard, FormSectionDivider } from './FormComponents'
+import { FileUploadField, TextInputField, TableCaptureCard, FormSectionDivider, SelectInputField } from './FormComponents'
 
 const columnasResiduos = [
   { key: 'organicos', label: '5. Orgánicos Generados', unit: 'Kg', placeholder: '0.00' },
@@ -37,6 +37,36 @@ const SeguridadForm = ({ hotelSeleccionado }) => {
     r3: '',
     r4: ''
   })
+
+  const [incidenteFauna, setIncidenteFauna] = useState('')
+
+  const showQ13 = incidenteFauna === 'Si';
+
+  const getQNum = (qKey) => {
+    let num = 13;
+    if (qKey === 'q13') return showQ13 ? num : null;
+    if (showQ13) num++;
+
+    if (qKey === 'q14') return num;
+    num++;
+
+    if (qKey === 'q15') return num;
+    num++;
+
+    if (qKey === 'q16') return num;
+    num++;
+
+    if (qKey === 'q17') return num;
+    num++;
+
+    if (qKey === 'q18') return num;
+    num++;
+
+    if (qKey === 'q19') return num;
+    num++;
+
+    return num;
+  };
 
   return (
     <div className="space-y-6 md:space-y-8">
@@ -105,9 +135,16 @@ const SeguridadForm = ({ hotelSeleccionado }) => {
       <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
         <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Incidentes con fauna</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <TextInputField label="12. ¿Hubo algún incidente con fauna durante el mes? (por ejemplo: reubicación de especies, animal lastim13o" placeholder="Escriba aquí" isTextArea={true} />
-          <FileUploadField label="13. Adjuntar reporte del incidente con fauna durante el mes." />
-          <FileUploadField label="14. Adjuntar reporte de esterilización y/o adopción de gatos" />
+          <SelectInputField 
+            label="12. ¿Hubo algún incidente con fauna durante el mes? (por ejemplo: reubicación de especies, animal lastimado)." 
+            options={["Si", "No"]} 
+            placeholder="Seleccionar..." 
+            onChange={(e) => setIncidenteFauna(e.target.value)} 
+          />
+          {showQ13 && (
+            <FileUploadField label={`${getQNum('q13')}. Adjuntar reporte del incidente con fauna durante el mes.`} />
+          )}
+          <FileUploadField label={`${getQNum('q14')}. Adjuntar reporte de esterilización y/o adopción de gatos`} />
         </div>
       </div>
 
@@ -115,8 +152,8 @@ const SeguridadForm = ({ hotelSeleccionado }) => {
       <FormSectionDivider
         icon={
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="5" width="20" height="11" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
-            <path d="M7 16a2 2 0 100 4 2 2 0 000-4zM17 16a2 2 0 100 4 2 2 0 000-4z" fill="currentColor" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 17a2 2 0 11-4 0 2 2 0 014 0zM18 17a2 2 0 11-4 0 2 2 0 014 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18 17H6a2 2 0 01-2-2V7a2 2 0 012-2h11.586a1 1 0 01.707.293l2.414 2.414a1 1 0 01.293.707V15a2 2 0 01-2 2zM4 9h16M9 5v4m5-4v4" />
           </svg>
         }
         title="Transporte de Personal"
@@ -141,8 +178,8 @@ const SeguridadForm = ({ hotelSeleccionado }) => {
             if (key === 'r4') setTransporte(prev => ({ ...prev, r4: val }))
           }}
         >
-          <TextInputField label="15. ¿Cuántas rutas de transporte de personal hay?" placeholder="Escriba aquí" />
-          <TextInputField label="16. Especifica a dónde van" placeholder="Escriba aquí" />
+          <TextInputField label={`${getQNum('q15')}. ¿Cuántas rutas de transporte de personal hay?`} placeholder="Escriba aquí" />
+          <TextInputField label={`${getQNum('q16')}. Especifica a dónde van`} placeholder="Escriba aquí" />
         </TableCaptureCard>
       </div>
 
@@ -160,10 +197,10 @@ const SeguridadForm = ({ hotelSeleccionado }) => {
       <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm shadow-slate-200/40 space-y-6">
         <h3 className="text-teal-700 font-bold form-section-title border-b border-teal-100/50 pb-2">Datos de llenado</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <TextInputField label="17. Nombre de quien llenó el cuestionario." placeholder="Escriba aquí" />
-          <TextInputField label="18. Puesto de quien llenó el cuestionario." placeholder="Escriba aquí" />
+          <TextInputField label={`${getQNum('q17')}. Nombre de quien llenó el cuestionario.`} placeholder="Escriba aquí" />
+          <TextInputField label={`${getQNum('q18')}. Puesto de quien llenó el cuestionario.`} placeholder="Escriba aquí" />
           <div className="md:col-span-2">
-            <TextInputField label="19. Correo electrónico" placeholder="Escriba aquí" />
+            <TextInputField label={`${getQNum('q19')}. Correo electrónico`} placeholder="Escriba aquí" />
           </div>
         </div>
       </div>

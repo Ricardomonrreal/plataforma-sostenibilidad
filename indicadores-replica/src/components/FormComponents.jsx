@@ -150,7 +150,8 @@ export const TextInputField = ({ label, subtitle, defaultValue, placeholder = ""
       subtitle.toLowerCase().includes('nacional') ||
       subtitle.toLowerCase().includes('kilogramos') ||
       subtitle.toLowerCase().includes('metros cúbicos') ||
-      subtitle.toLowerCase().includes('personas')
+      subtitle.toLowerCase().includes('personas') ||
+      subtitle.toLowerCase().includes('número')
     ));
 
   const handleChange = (e) => {
