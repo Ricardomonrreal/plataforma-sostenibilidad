@@ -52,7 +52,7 @@ export const FileUploadField = ({ id, label, subtitle, name, hasError, onChange,
         setFiles([]);
       }
     }
-  }, [value]);
+  }, [value, files]);
 
   useEffect(() => {
     if (onChange) {
@@ -142,26 +142,35 @@ export const FileUploadField = ({ id, label, subtitle, name, hasError, onChange,
               </button>
 
               <div className="w-full h-16 flex items-center justify-center overflow-hidden rounded-lg bg-slate-50 relative">
-                {f.preview ? (
-                  f.file.type.startsWith('image/') ? (
-                    <img src={f.preview} alt={f.file.name} className="w-full h-full object-cover" />
-                  ) : f.file.type === 'application/pdf' ? (
-                    <>
-                      <iframe src={`${f.preview}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`} className="w-[120%] h-[150%] absolute top-[-10%] left-[-10%] pointer-events-none" frameBorder="0" scrolling="no" title={f.file.name}></iframe>
-                      <div className="absolute inset-0 z-10 bg-transparent" title={f.file.name}></div>
-                    </>
-                  ) : (
-                    <svg className="w-8 h-8 text-teal-600/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                  )
+                {f.file.type.startsWith('image/') && f.preview ? (
+                  <img src={f.preview} alt={f.file.name} className="w-full h-full object-cover" />
+                ) : f.file.type === 'application/pdf' ? (
+                  <div className="flex flex-col items-center justify-center text-rose-500 gap-1 select-none">
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
+                    </svg>
+                    <span className="text-[8px] font-bold uppercase tracking-wider bg-rose-50 px-1 py-0.5 rounded text-rose-600 border border-rose-100">PDF</span>
+                  </div>
+                ) : f.file.name.toLowerCase().endsWith('.xlsx') || f.file.name.toLowerCase().endsWith('.xls') ? (
+                  <div className="flex flex-col items-center justify-center text-emerald-500 gap-1 select-none">
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
+                    </svg>
+                    <span className="text-[8px] font-bold uppercase tracking-wider bg-emerald-50 px-1 py-0.5 rounded text-emerald-600 border border-emerald-100">EXCEL</span>
+                  </div>
+                ) : f.file.type.startsWith('image/') ? (
+                  <div className="flex flex-col items-center justify-center text-teal-500 gap-1 select-none">
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375 0 11-.75 0 .375 0 01.75 0z"></path>
+                    </svg>
+                    <span className="text-[8px] font-bold uppercase tracking-wider bg-teal-50 px-1 py-0.5 rounded text-teal-600 border border-teal-100">IMG</span>
+                  </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center text-teal-600/80 p-1">
-                    {f.file.type === 'application/pdf' ? (
-                      <span className="text-xs font-bold text-red-500 uppercase">PDF Guardado</span>
-                    ) : f.file.type.startsWith('image/') ? (
-                      <span className="text-xs font-bold text-emerald-600 uppercase">IMG Guardada</span>
-                    ) : (
-                      <span className="text-[10px] font-bold text-slate-500 uppercase">Archivo</span>
-                    )}
+                  <div className="flex flex-col items-center justify-center text-slate-500 gap-1 select-none">
+                    <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
+                    </svg>
+                    <span className="text-[8px] font-bold uppercase tracking-wider bg-slate-100 px-1 py-0.5 rounded text-slate-600 border border-slate-200">DOC</span>
                   </div>
                 )}
               </div>
@@ -185,24 +194,60 @@ export const FileUploadField = ({ id, label, subtitle, name, hasError, onChange,
               </button>
             </div>
             <div className="flex-1 overflow-auto bg-slate-100/50 flex items-center justify-center p-4 relative">
-              {previewFile.preview ? (
-                previewFile.file.type.startsWith('image/') ? (
-                  <img src={previewFile.preview} alt={previewFile.file.name} className="max-w-full max-h-full object-contain drop-shadow-md" />
-                ) : previewFile.file.type === 'application/pdf' ? (
-                  <object data={`${previewFile.preview}#toolbar=1&navpanes=0`} type="application/pdf" className="w-full h-full rounded shadow-sm"></object>
-                ) : (
-                  <div className="flex flex-col items-center text-slate-400">
-                    <svg className="w-20 h-20 mb-4 text-teal-600/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                    <p>Previsualización no disponible para este tipo de archivo</p>
-                  </div>
-                )
-              ) : (
-                <div className="flex flex-col items-center text-slate-500">
-                  <svg className="w-20 h-20 mb-4 text-teal-600/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                  <p className="font-semibold text-slate-700">Archivo Guardado en Supabase</p>
-                  <p className="text-xs text-slate-400 mt-1">Este archivo fue guardado en una sesión previa y no está cargado localmente.</p>
-                </div>
-              )}
+              {(() => {
+                const isNewUpload = previewFile.preview && previewFile.preview.startsWith('blob:');
+                const isSimulado = !isNewUpload && [
+                  'bitacora_impresa.pdf', 'bitacora_excel.xlsx', 'fauna.pdf', 'esterilizacion.pdf', 
+                  'reciclables.pdf', 'control.xlsx', 'aceite.pdf', 'salidas.pdf', 'electronicos.pdf', 
+                  'evidencia_campana.pdf', 'reporte_rrhh.pdf', 'recibo_cfe.pdf', 'factura_gas.pdf', 
+                  'bitacora_gas.xlsx', 'factura_diesel.pdf', 'bitacora_diesel.xlsx', 'factura_gasolina.pdf', 
+                  'bitacora_gasolina.xlsx', 'factura_lena.pdf', 'factura_carbon.pdf', 'bitacora_agua.xlsx', 
+                  'gestores.pdf', 'reporte_mensual.pdf', 'carcamos.pdf', 'campanas.pdf', 'peligrosos.pdf', 
+                  'escombros.pdf', 'manifiesto_sargazo.pdf', 'bitacora_sargazo.xlsx'
+                ].includes(previewFile.file.name.toLowerCase());
+
+                if (isSimulado) {
+                  return (
+                    <div className="flex flex-col items-center justify-center p-8 text-center max-w-md mx-auto bg-white rounded-3xl border border-slate-100 shadow-sm space-y-4">
+                      <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center text-teal-600">
+                        <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
+                        </svg>
+                      </div>
+                      <h4 className="font-bold text-slate-800 text-base">Archivo de Simulación Histórica</h4>
+                      <p className="text-xs text-slate-500 leading-relaxed">
+                        Este documento es un marcador de posición demostrativo generado por la **simulación histórica (2023 - 2026)** y no corresponde a un archivo físico real en Supabase Storage.
+                      </p>
+                      <div className="text-[11px] bg-slate-50 border border-slate-100 px-4 py-3 rounded-2xl text-slate-500 font-medium leading-normal">
+                        💡 <strong>Tip</strong>: Puedes eliminar este marcador de posición y subir tu propio PDF o foto real en el formulario. Al guardar, se subirá físicamente y podrás previsualizarlo aquí de manera 100% interactiva.
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (previewFile.preview) {
+                  if (previewFile.file.type.startsWith('image/')) {
+                    return <img src={previewFile.preview} alt={previewFile.file.name} className="max-w-full max-h-full object-contain drop-shadow-md" />;
+                  } else if (previewFile.file.type === 'application/pdf') {
+                    return <object data={`${previewFile.preview}#toolbar=1&navpanes=0`} type="application/pdf" className="w-full h-full rounded shadow-sm"></object>;
+                  } else {
+                    return (
+                      <div className="flex flex-col items-center text-slate-400">
+                        <svg className="w-20 h-20 mb-4 text-teal-600/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        <p>Previsualización no disponible para este tipo de archivo</p>
+                      </div>
+                    );
+                  }
+                } else {
+                  return (
+                    <div className="flex flex-col items-center text-slate-500">
+                      <svg className="w-20 h-20 mb-4 text-teal-600/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                      <p className="font-semibold text-slate-700">Archivo Guardado en Supabase</p>
+                      <p className="text-xs text-slate-400 mt-1">Este archivo fue guardado en una sesión previa y no está cargado localmente.</p>
+                    </div>
+                  );
+                }
+              })()}
             </div>
           </div>
         </div>
