@@ -1,10 +1,64 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import { supabase } from '../supabaseClient'
 
-export const FileUploadField = ({ id, label, subtitle }) => {
+
+export const FileUploadField = ({ id, label, subtitle, name, hasError, onChange, value }) => {
   const fileInputRef = useRef(null)
   const [files, setFiles] = useState([])
   const [isDragging, setIsDragging] = useState(false)
   const [previewFile, setPreviewFile] = useState(null)
+
+  const getFileType = (fileName) => {
+    if (!fileName) return 'application/octet-stream';
+    const ext = fileName.toLowerCase().split('.').pop();
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) return 'image/jpeg';
+    if (ext === 'pdf') return 'application/pdf';
+    return 'application/octet-stream';
+  };
+
+  useEffect(() => {
+    if (value && Array.isArray(value) && value.length > 0) {
+      const currentNames = files.map(f => f.file?.name);
+      const incomingNames = value.map(f => typeof f === 'string' ? f : f.name);
+      
+      const isSame = currentNames.length === incomingNames.length && 
+                     currentNames.every((name, index) => name === incomingNames[index]);
+                     
+      if (!isSame) {
+        const mockFiles = value.map(item => {
+          if (item && typeof item === 'object' && item.name) {
+            return {
+              id: Math.random().toString(36).substring(7),
+              file: item,
+              preview: item instanceof File ? URL.createObjectURL(item) : null
+            };
+          }
+          const fileName = String(item);
+          let previewUrl = null;
+          if (fileName.includes('/')) {
+            const { data } = supabase.storage.from('soportes').getPublicUrl(fileName);
+            previewUrl = data?.publicUrl || null;
+          }
+          return {
+            id: Math.random().toString(36).substring(7),
+            file: { name: fileName, type: getFileType(fileName) },
+            preview: previewUrl
+          };
+        });
+        setFiles(mockFiles);
+      }
+    } else {
+      if (files.length > 0) {
+        setFiles([]);
+      }
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(files.map(f => f.file));
+    }
+  }, [files]);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -42,7 +96,7 @@ export const FileUploadField = ({ id, label, subtitle }) => {
   const removeFile = (idToRemove) => {
     setFiles(prev => {
       const fileToRem = prev.find(f => f.id === idToRemove)
-      if (fileToRem) URL.revokeObjectURL(fileToRem.preview)
+      if (fileToRem && fileToRem.preview) URL.revokeObjectURL(fileToRem.preview)
       return prev.filter(f => f.id !== idToRemove)
     })
   }
@@ -54,6 +108,8 @@ export const FileUploadField = ({ id, label, subtitle }) => {
       <div
         className={`border-dashed rounded-2xl w-full min-h-[120px] flex items-center justify-center cursor-pointer transition-all duration-300 p-4 ${isDragging
             ? 'border-2 border-teal-500 bg-teal-50/80 scale-[1.02]'
+            : hasError
+            ? 'border-2 border-red-500 bg-red-50/50 hover:bg-red-50 scale-[1.01]'
             : 'border border-slate-200 hover:border-teal-400 hover:bg-teal-50/30 bg-slate-50/50'
           }`}
         onClick={() => fileInputRef.current?.click()}
@@ -86,45 +142,65 @@ export const FileUploadField = ({ id, label, subtitle }) => {
               </button>
 
               <div className="w-full h-16 flex items-center justify-center overflow-hidden rounded-lg bg-slate-50 relative">
-                {f.file.type.startsWith('image/') ? (
-                  <img src={f.preview} alt={f.file.name} className="w-full h-full object-cover" />
-                ) : f.file.type === 'application/pdf' ? (
-                  <>
-                    <iframe src={`${f.preview}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`} className="w-[120%] h-[150%] absolute top-[-10%] left-[-10%] pointer-events-none" frameBorder="0" scrolling="no" title={f.file.name}></iframe>
-                    <div className="absolute inset-0 z-10 bg-transparent" title={f.file.name}></div>
-                  </>
+                {f.preview ? (
+                  f.file.type.startsWith('image/') ? (
+                    <img src={f.preview} alt={f.file.name} className="w-full h-full object-cover" />
+                  ) : f.file.type === 'application/pdf' ? (
+                    <>
+                      <iframe src={`${f.preview}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`} className="w-[120%] h-[150%] absolute top-[-10%] left-[-10%] pointer-events-none" frameBorder="0" scrolling="no" title={f.file.name}></iframe>
+                      <div className="absolute inset-0 z-10 bg-transparent" title={f.file.name}></div>
+                    </>
+                  ) : (
+                    <svg className="w-8 h-8 text-teal-600/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                  )
                 ) : (
-                  <svg className="w-8 h-8 text-teal-600/70" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                  <div className="flex flex-col items-center justify-center text-teal-600/80 p-1">
+                    {f.file.type === 'application/pdf' ? (
+                      <span className="text-xs font-bold text-red-500 uppercase">PDF Guardado</span>
+                    ) : f.file.type.startsWith('image/') ? (
+                      <span className="text-xs font-bold text-emerald-600 uppercase">IMG Guardada</span>
+                    ) : (
+                      <span className="text-[10px] font-bold text-slate-500 uppercase">Archivo</span>
+                    )}
+                  </div>
                 )}
               </div>
-              <span className="text-[10px] text-slate-500 w-full truncate text-center font-medium px-1" title={f.file.name}>
-                {f.file.name}
+              <span className="text-[10px] text-slate-500 w-full truncate text-center font-medium px-1" title={f.file.name.split('/').pop()}>
+                {f.file.name.split('/').pop()}
               </span>
             </div>
           ))}
         </div>
       )}
 
-      <input type="file" id={id} ref={fileInputRef} className="hidden" multiple onChange={handleFileChange} />
+      <input type="file" id={id || name} ref={fileInputRef} className="hidden" name={name} multiple onChange={handleFileChange} />
 
       {previewFile && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 md:p-10" onClick={() => setPreviewFile(null)}>
           <div className="relative w-full max-w-5xl h-full bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center p-4 border-b border-slate-100 bg-slate-50">
-              <h3 className="font-semibold text-slate-800 truncate pr-4">{previewFile.file.name}</h3>
+              <h3 className="font-semibold text-slate-800 truncate pr-4">{previewFile.file.name.split('/').pop()}</h3>
               <button onClick={() => setPreviewFile(null)} className="text-slate-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-slate-200" title="Cerrar">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
             </div>
             <div className="flex-1 overflow-auto bg-slate-100/50 flex items-center justify-center p-4 relative">
-              {previewFile.file.type.startsWith('image/') ? (
-                <img src={previewFile.preview} alt={previewFile.file.name} className="max-w-full max-h-full object-contain drop-shadow-md" />
-              ) : previewFile.file.type === 'application/pdf' ? (
-                <object data={`${previewFile.preview}#toolbar=1&navpanes=0`} type="application/pdf" className="w-full h-full rounded shadow-sm"></object>
+              {previewFile.preview ? (
+                previewFile.file.type.startsWith('image/') ? (
+                  <img src={previewFile.preview} alt={previewFile.file.name} className="max-w-full max-h-full object-contain drop-shadow-md" />
+                ) : previewFile.file.type === 'application/pdf' ? (
+                  <object data={`${previewFile.preview}#toolbar=1&navpanes=0`} type="application/pdf" className="w-full h-full rounded shadow-sm"></object>
+                ) : (
+                  <div className="flex flex-col items-center text-slate-400">
+                    <svg className="w-20 h-20 mb-4 text-teal-600/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    <p>Previsualización no disponible para este tipo de archivo</p>
+                  </div>
+                )
               ) : (
-                <div className="flex flex-col items-center text-slate-400">
-                  <svg className="w-20 h-20 mb-4 text-teal-600/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                  <p>Previsualización no disponible para este tipo de archivo</p>
+                <div className="flex flex-col items-center text-slate-500">
+                  <svg className="w-20 h-20 mb-4 text-teal-600/40" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                  <p className="font-semibold text-slate-700">Archivo Guardado en Supabase</p>
+                  <p className="text-xs text-slate-400 mt-1">Este archivo fue guardado en una sesión previa y no está cargado localmente.</p>
                 </div>
               )}
             </div>
@@ -135,10 +211,14 @@ export const FileUploadField = ({ id, label, subtitle }) => {
   )
 }
 
-export const TextInputField = ({ label, subtitle, defaultValue, placeholder = "", isNumeric = false, isTextArea = false, onChange }) => {
-  const [value, setValue] = useState(defaultValue || '');
+export const TextInputField = ({ label, subtitle, value: propValue, defaultValue, placeholder = "", isNumeric = false, isTextArea = false, onChange, name, hasError }) => {
+  const [value, setValue] = useState('');
   const [error, setError] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    setValue(propValue !== undefined ? propValue : (defaultValue || ''));
+  }, [propValue, defaultValue]);
 
   const isCurrency = placeholder.includes('$');
 
@@ -194,7 +274,8 @@ export const TextInputField = ({ label, subtitle, defaultValue, placeholder = ""
       </div>
       {isTextArea ? (
         <textarea
-          className={`border w-full rounded-xl h-28 px-4 py-3 text-slate-800 transition-all duration-300 focus:outline-none resize-none ${error
+          name={name}
+          className={`border w-full rounded-xl h-28 px-4 py-3 text-slate-800 transition-all duration-300 focus:outline-none resize-none ${(error || hasError)
               ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200'
               : 'border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100'
             }`}
@@ -207,7 +288,8 @@ export const TextInputField = ({ label, subtitle, defaultValue, placeholder = ""
       ) : (
         <input
           type="text"
-          className={`border w-full rounded-xl h-12 px-4 py-2 text-slate-800 transition-all duration-300 focus:outline-none ${error
+          name={name}
+          className={`border w-full rounded-xl h-12 px-4 py-2 text-slate-800 transition-all duration-300 focus:outline-none ${(error || hasError)
               ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-2 focus:ring-red-200'
               : 'border-slate-200 bg-slate-50/50 hover:bg-white focus:bg-white focus:border-teal-400 focus:ring-2 focus:ring-teal-100'
             }`}
@@ -223,7 +305,7 @@ export const TextInputField = ({ label, subtitle, defaultValue, placeholder = ""
   )
 }
 
-export const SelectInputField = ({ label, subtitle, options, placeholder = "Seleccionar...", onChange }) => {
+export const SelectInputField = ({ label, subtitle, options, value, placeholder = "Seleccionar...", onChange, name, hasError }) => {
   return (
     <div className="flex flex-col w-full gap-1 mb-2">
       <div className="flex flex-col">
@@ -233,9 +315,14 @@ export const SelectInputField = ({ label, subtitle, options, placeholder = "Sele
         {subtitle && <span className="text-xs text-teal-700 font-bold mb-1">{subtitle}</span>}
       </div>
       <div className="relative">
-        <select className="border border-slate-200 w-full rounded-xl h-12 px-4 py-2 text-slate-800 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:border-teal-400 focus:ring-2 focus:ring-teal-100 transition-all duration-300 appearance-none"
-          defaultValue=""
-          onChange={onChange}>
+        <select 
+          name={name}
+          className={`border w-full rounded-xl h-12 px-4 py-2 text-slate-800 bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:ring-2 transition-all duration-300 appearance-none ${hasError
+            ? 'border-red-500 bg-red-50 focus:border-red-500 focus:ring-red-200'
+            : 'border-slate-200 focus:border-teal-400 focus:ring-teal-100'
+          }`}
+          onChange={onChange}
+          {...(value !== undefined ? { value } : { defaultValue: "" })}>
           <option value="" disabled>{placeholder}</option>
           {options.map((opt, idx) => (
             <option key={idx} value={opt}>{opt}</option>

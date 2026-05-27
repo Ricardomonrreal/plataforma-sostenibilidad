@@ -72,19 +72,39 @@ const IndicadoresForm = () => {
 
         {/* Carga Condicional del Formulario de Captura por Grupo */}
         {hotelSeleccionado && grupoSeleccionado === 'Mantenimiento' && (
-          <MantenimientoForm hotelSeleccionado={hotelSeleccionado} />
+          <MantenimientoForm 
+            hotelSeleccionado={hotelSeleccionado} 
+            anoSeleccionado={anoSeleccionado} 
+            mesSeleccionado={mesSeleccionado} 
+            grupoSeleccionado={grupoSeleccionado} 
+          />
         )}
 
         {hotelSeleccionado && grupoSeleccionado === 'Seguridad' && (
-          <SeguridadForm hotelSeleccionado={hotelSeleccionado} />
+          <SeguridadForm 
+            hotelSeleccionado={hotelSeleccionado} 
+            anoSeleccionado={anoSeleccionado} 
+            mesSeleccionado={mesSeleccionado} 
+            grupoSeleccionado={grupoSeleccionado} 
+          />
         )}
 
         {hotelSeleccionado && grupoSeleccionado === 'Recursos Humanos' && (
-          <RecursosHumanosForm hotelSeleccionado={hotelSeleccionado} />
+          <RecursosHumanosForm 
+            hotelSeleccionado={hotelSeleccionado} 
+            anoSeleccionado={anoSeleccionado} 
+            mesSeleccionado={mesSeleccionado} 
+            grupoSeleccionado={grupoSeleccionado} 
+          />
         )}
 
         {hotelSeleccionado && grupoSeleccionado === 'Contraloría' && (
-          <ContraloriaForm hotelSeleccionado={hotelSeleccionado} />
+          <ContraloriaForm 
+            hotelSeleccionado={hotelSeleccionado} 
+            anoSeleccionado={anoSeleccionado} 
+            mesSeleccionado={mesSeleccionado} 
+            grupoSeleccionado={grupoSeleccionado} 
+          />
         )}
 
         {/* Mensaje Informativo de Selección Inicial */}
