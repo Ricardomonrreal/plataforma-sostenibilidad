@@ -42,7 +42,7 @@ import {
   FaOilCan,
   FaMobileAlt,
   FaInbox
-} from 'react-icons/fa'
+} from './Icons'
 
 /* ───────────────────────── constantes ───────────────────────── */
 

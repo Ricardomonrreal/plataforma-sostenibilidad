@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaCog, FaUser, FaBook, FaCheckSquare, FaChartBar } from 'react-icons/fa'
+import { FaCog, FaUser, FaBook, FaCheckSquare, FaChartBar } from './Icons'
 
 const Sidebar = ({ vistaActual, onCambiarVista }) => {
   return (
