@@ -68,11 +68,6 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-
-      <div className="fixed bottom-2 hidden md:block">
-        <div className="text-white text-xs">V.10.01</div>
-        <div className="text-white text-xs">Del grupo Dexabyte</div>
-      </div>
     </div>
   )
 }
