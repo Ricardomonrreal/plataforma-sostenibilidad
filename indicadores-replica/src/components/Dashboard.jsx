@@ -57,8 +57,11 @@ const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto'
 const MES_INDEX = Object.fromEntries(MESES.map((m, i) => [m, i]))
 
 const PALETTE = [
-  '#0d9488', '#0ea5e9', '#8b5cf6', '#f59e0b',
-  '#ef4444', '#10b981', '#ec4899', '#6366f1'
+  '#03105e', // Navy blue
+  '#00a09d', // Teal
+  '#ffae00', // Yellow
+  '#cd003b', // Crimson red
+  '#76777a'  // Grey
 ]
 
 /* ─── helpers para extraer métricas del JSONB ─── */
@@ -71,54 +74,54 @@ const num = (v) => {
 
 const METRIC_DEFS = {
   Mantenimiento: [
-    { key: 'totalEnergia', label: 'Energía Total', unit: 'kWh', path: d => d?.totalEnergia, color: '#f59e0b', icon: <FaBolt /> },
-    { key: 'costoElectricidad', label: 'Costo Electricidad', unit: '$', path: d => d?.costoElectricidad, color: '#ef4444', icon: <FaDollarSign /> },
-    { key: 'gasLP', label: 'Gas LP', unit: 'L', path: d => d?.combustibles?.gasLP, color: '#8b5cf6', icon: <FaFire /> },
-    { key: 'diesel', label: 'Diesel', unit: 'L', path: d => d?.combustibles?.diesel, color: '#6366f1', icon: <FaGasPump /> },
-    { key: 'gasolina', label: 'Gasolina', unit: 'L', path: d => d?.combustibles?.gasolina, color: '#ec4899', icon: <FaGasPump /> },
-    { key: 'lena', label: 'Leña', unit: 'kg', path: d => d?.combustibles?.lena, color: '#a16207', icon: <FaTree /> },
-    { key: 'carbon', label: 'Carbón Vegetal', unit: 'kg', path: d => d?.combustibles?.carbon, color: '#57534e', icon: <FaBurn /> },
-    { key: 'costoGasLP', label: 'Costo Gas LP', unit: '$', path: d => d?.costoGasLP, color: '#dc2626', icon: <FaMoneyBillWave /> },
-    { key: 'aguaPotable', label: 'Agua Consumida', unit: 'm³', path: d => d?.agua?.potable, color: '#0ea5e9', icon: <FaTint /> },
-    { key: 'aguaPozos', label: 'Pozos Extracción', unit: 'm³', path: d => d?.agua?.pozos, color: '#0891b2', icon: <FaWater /> },
-    { key: 'osmosisProd', label: 'Prod. Ósmosis', unit: 'm³', path: d => d?.agua?.osmosisProd, color: '#06b6d4', icon: <FaFlask /> },
-    { key: 'osmosisRechazo', label: 'Rechazo Ósmosis', unit: 'm³', path: d => d?.agua?.osmosisRechazo, color: '#94a3b8', icon: <FaFaucet /> },
-    { key: 'ptarPozo', label: 'PTAR a Pozo', unit: 'm³', path: d => d?.agua?.ptarPozo, color: '#22d3ee', icon: <FaRecycle /> },
-    { key: 'ptarRiego', label: 'PTAR a Riego', unit: 'm³', path: d => d?.agua?.ptarRiego, color: '#10b981', icon: <FaSeedling /> },
-    { key: 'lavanderia', label: 'Lavandería', unit: 'm³', path: d => d?.agua?.lavanderia, color: '#a78bfa', icon: <FaTshirt /> },
-    { key: 'retrolavados', label: 'Retrolavados', unit: 'm³', path: d => d?.agua?.retrolavados, color: '#38bdf8', icon: <FaSyncAlt /> },
-    { key: 'volumenSargazo', label: 'Volumen Sargazo', unit: '', path: d => d?.volumenSargazo, color: '#84cc16', icon: <FaLeaf /> },
+    { key: 'totalEnergia', label: 'Energía Total', unit: 'kWh', path: d => d?.totalEnergia, color: '#ffae00', icon: <FaBolt /> },
+    { key: 'costoElectricidad', label: 'Costo Electricidad', unit: '$', path: d => d?.costoElectricidad, color: '#cd003b', icon: <FaDollarSign /> },
+    { key: 'gasLP', label: 'Gas LP', unit: 'L', path: d => d?.combustibles?.gasLP, color: '#00a09d', icon: <FaFire /> },
+    { key: 'diesel', label: 'Diesel', unit: 'L', path: d => d?.combustibles?.diesel, color: '#03105e', icon: <FaGasPump /> },
+    { key: 'gasolina', label: 'Gasolina', unit: 'L', path: d => d?.combustibles?.gasolina, color: '#76777a', icon: <FaGasPump /> },
+    { key: 'lena', label: 'Leña', unit: 'kg', path: d => d?.combustibles?.lena, color: '#ffae00', icon: <FaTree /> },
+    { key: 'carbon', label: 'Carbón Vegetal', unit: 'kg', path: d => d?.combustibles?.carbon, color: '#76777a', icon: <FaBurn /> },
+    { key: 'costoGasLP', label: 'Costo Gas LP', unit: '$', path: d => d?.costoGasLP, color: '#cd003b', icon: <FaMoneyBillWave /> },
+    { key: 'aguaPotable', label: 'Agua Consumida', unit: 'm³', path: d => d?.agua?.potable, color: '#00a09d', icon: <FaTint /> },
+    { key: 'aguaPozos', label: 'Pozos Extracción', unit: 'm³', path: d => d?.agua?.pozos, color: '#03105e', icon: <FaWater /> },
+    { key: 'osmosisProd', label: 'Prod. Ósmosis', unit: 'm³', path: d => d?.agua?.osmosisProd, color: '#ffae00', icon: <FaFlask /> },
+    { key: 'osmosisRechazo', label: 'Rechazo Ósmosis', unit: 'm³', path: d => d?.agua?.osmosisRechazo, color: '#76777a', icon: <FaFaucet /> },
+    { key: 'ptarPozo', label: 'PTAR a Pozo', unit: 'm³', path: d => d?.agua?.ptarPozo, color: '#cd003b', icon: <FaRecycle /> },
+    { key: 'ptarRiego', label: 'PTAR a Riego', unit: 'm³', path: d => d?.agua?.ptarRiego, color: '#00a09d', icon: <FaSeedling /> },
+    { key: 'lavanderia', label: 'Lavandería', unit: 'm³', path: d => d?.agua?.lavanderia, color: '#03105e', icon: <FaTshirt /> },
+    { key: 'retrolavados', label: 'Retrolavados', unit: 'm³', path: d => d?.agua?.retrolavados, color: '#76777a', icon: <FaSyncAlt /> },
+    { key: 'volumenSargazo', label: 'Volumen Sargazo', unit: '', path: d => d?.volumenSargazo, color: '#00a09d', icon: <FaLeaf /> },
   ],
   Seguridad: [
-    { key: 'residuosOrganicos', label: 'Residuos Orgánicos', unit: '', path: d => d?.residuos?.organicos, color: '#10b981', icon: <FaRecycle /> },
-    { key: 'residuosInorganicos', label: 'Residuos Inorgánicos', unit: '', path: d => d?.residuos?.inorganicos, color: '#6366f1', icon: <FaTrash /> },
-    { key: 'residuosGranja', label: 'Residuos Org. Granja', unit: '', path: d => d?.residuos?.organicosgranja, color: '#84cc16', icon: <FaPaw /> },
-    { key: 'accidentesHuespedes', label: 'Accidentes Huéspedes', unit: '', path: d => d?.accidentes?.huespedes, color: '#ef4444', icon: <FaHospital /> },
-    { key: 'accidentesColaboradores', label: 'Accidentes Colaboradores', unit: '', path: d => d?.accidentes?.colaboradores, color: '#f97316', icon: <FaExclamationTriangle /> },
-    { key: 'transporteR1', label: 'Transporte R1', unit: '', path: d => d?.transporte?.r1, color: '#0ea5e9', icon: <FaBus /> },
-    { key: 'transporteR2', label: 'Transporte R2', unit: '', path: d => d?.transporte?.r2, color: '#8b5cf6', icon: <FaBus /> },
-    { key: 'transporteR3', label: 'Transporte R3', unit: '', path: d => d?.transporte?.r3, color: '#ec4899', icon: <FaBus /> },
-    { key: 'transporteR4', label: 'Transporte R4', unit: '', path: d => d?.transporte?.r4, color: '#f59e0b', icon: <FaBus /> },
-    { key: 'rutasTransporteCantidad', label: 'Rutas Transporte Cantidad', unit: '', path: d => d?.rutasTransporteCantidad, color: '#14b8a6', icon: <FaRoad /> },
+    { key: 'residuosOrganicos', label: 'Residuos Orgánicos', unit: '', path: d => d?.residuos?.organicos, color: '#00a09d', icon: <FaRecycle /> },
+    { key: 'residuosInorganicos', label: 'Residuos Inorgánicos', unit: '', path: d => d?.residuos?.inorganicos, color: '#76777a', icon: <FaTrash /> },
+    { key: 'residuosGranja', label: 'Residuos Org. Granja', unit: '', path: d => d?.residuos?.organicosgranja, color: '#ffae00', icon: <FaPaw /> },
+    { key: 'accidentesHuespedes', label: 'Accidentes Huéspedes', unit: '', path: d => d?.accidentes?.huespedes, color: '#cd003b', icon: <FaHospital /> },
+    { key: 'accidentesColaboradores', label: 'Accidentes Colaboradores', unit: '', path: d => d?.accidentes?.colaboradores, color: '#03105e', icon: <FaExclamationTriangle /> },
+    { key: 'transporteR1', label: 'Transporte R1', unit: '', path: d => d?.transporte?.r1, color: '#00a09d', icon: <FaBus /> },
+    { key: 'transporteR2', label: 'Transporte R2', unit: '', path: d => d?.transporte?.r2, color: '#03105e', icon: <FaBus /> },
+    { key: 'transporteR3', label: 'Transporte R3', unit: '', path: d => d?.transporte?.r3, color: '#ffae00', icon: <FaBus /> },
+    { key: 'transporteR4', label: 'Transporte R4', unit: '', path: d => d?.transporte?.r4, color: '#76777a', icon: <FaBus /> },
+    { key: 'rutasTransporteCantidad', label: 'Rutas Transporte Cantidad', unit: '', path: d => d?.rutasTransporteCantidad, color: '#cd003b', icon: <FaRoad /> },
   ],
   'Recursos Humanos': [
-    { key: 'colaboradoresClubVacacional', label: 'Colaboradores Club Vacacional', unit: '', path: d => d?.colaboradoresClubVacacional, color: '#0d9488', icon: <FaUsers /> },
-    { key: 'colaboradoresExternos', label: 'Colaboradores Externos', unit: '', path: d => d?.colaboradoresExternos, color: '#0ea5e9', icon: <FaHandshake /> },
-    { key: 'residentesPobladoApoyo', label: 'Residentes Poblado Apoyo', unit: '', path: d => d?.residentesPobladoApoyo, color: '#8b5cf6', icon: <FaHome /> },
-    { key: 'actividadVoluntariadoHoras', label: 'Voluntariado (Horas)', unit: 'hrs', path: d => d?.actividadVoluntariadoHoras, color: '#f59e0b', icon: <FaHandsHelping /> },
-    { key: 'montoFundacionLomas', label: 'Monto Fundación Lomas', unit: '$', path: d => d?.montoFundacionLomas, color: '#ef4444', icon: <FaUniversity /> },
-    { key: 'colaboradoresEducacionAdultos', label: 'Educación Adultos', unit: '', path: d => d?.colaboradoresEducacionAdultos, color: '#10b981', icon: <FaBook /> },
-    { key: 'montoEfectivoDonaciones', label: 'Monto Donaciones', unit: '$', path: d => d?.montoEfectivoDonaciones, color: '#ec4899', icon: <FaHeart /> },
-    { key: 'donativosEspecieValor', label: 'Donativos Especie', unit: '$', path: d => d?.donativosEspecieValor, color: '#6366f1', icon: <FaGift /> },
+    { key: 'colaboradoresClubVacacional', label: 'Colaboradores Club Vacacional', unit: '', path: d => d?.colaboradoresClubVacacional, color: '#03105e', icon: <FaUsers /> },
+    { key: 'colaboradoresExternos', label: 'Colaboradores Externos', unit: '', path: d => d?.colaboradoresExternos, color: '#00a09d', icon: <FaHandshake /> },
+    { key: 'residentesPobladoApoyo', label: 'Residentes Poblado Apoyo', unit: '', path: d => d?.residentesPobladoApoyo, color: '#76777a', icon: <FaHome /> },
+    { key: 'actividadVoluntariadoHoras', label: 'Voluntariado (Horas)', unit: 'hrs', path: d => d?.actividadVoluntariadoHoras, color: '#ffae00', icon: <FaHandsHelping /> },
+    { key: 'montoFundacionLomas', label: 'Monto Fundación Lomas', unit: '$', path: d => d?.montoFundacionLomas, color: '#cd003b', icon: <FaUniversity /> },
+    { key: 'colaboradoresEducacionAdultos', label: 'Educación Adultos', unit: '', path: d => d?.colaboradoresEducacionAdultos, color: '#00a09d', icon: <FaBook /> },
+    { key: 'montoEfectivoDonaciones', label: 'Monto Donaciones', unit: '$', path: d => d?.montoEfectivoDonaciones, color: '#cd003b', icon: <FaHeart /> },
+    { key: 'donativosEspecieValor', label: 'Donativos Especie', unit: '$', path: d => d?.donativosEspecieValor, color: '#03105e', icon: <FaGift /> },
   ],
   'Contraloría': [
-    { key: 'huespednoche', label: 'Huésped-Noche', unit: '', path: d => d?.ocupacion?.huespednoche, color: '#0d9488', icon: <FaBed /> },
-    { key: 'cuartonoche', label: 'Cuarto-Noche', unit: '', path: d => d?.ocupacion?.cuartonoche, color: '#0ea5e9', icon: <FaDoorOpen /> },
-    { key: 'porcentajeOcupacion', label: '% Ocupación', unit: '%', path: d => d?.ocupacion?.porcentaje, color: '#8b5cf6', icon: <FaChartBar /> },
-    { key: 'recoleccionesReciclables', label: 'Recolecciones Reciclables', unit: '', path: d => d?.recoleccionesReciclablesCantidad, color: '#10b981', icon: <FaRecycle /> },
-    { key: 'dayPassVendidos', label: 'Day Pass Vendidos', unit: '', path: d => d?.dayPassVendidosCantidad, color: '#f59e0b', icon: <FaTicketAlt /> },
-    { key: 'litrosAceite', label: 'Litros Aceite Salida', unit: 'L', path: d => d?.litrosAceiteSalidaAlmacen, color: '#ef4444', icon: <FaOilCan /> },
-    { key: 'reciclablesElectronicosPeso', label: 'Electrónicos Reciclados', unit: 'kg', path: d => d?.reciclablesElectronicosPeso, color: '#6366f1', icon: <FaMobileAlt /> },
+    { key: 'huespednoche', label: 'Huésped-Noche', unit: '', path: d => d?.ocupacion?.huespednoche, color: '#03105e', icon: <FaBed /> },
+    { key: 'cuartonoche', label: 'Cuarto-Noche', unit: '', path: d => d?.ocupacion?.cuartonoche, color: '#00a09d', icon: <FaDoorOpen /> },
+    { key: 'porcentajeOcupacion', label: '% Ocupación', unit: '%', path: d => d?.ocupacion?.porcentaje, color: '#ffae00', icon: <FaChartBar /> },
+    { key: 'recoleccionesReciclables', label: 'Recolecciones Reciclables', unit: '', path: d => d?.recoleccionesReciclablesCantidad, color: '#76777a', icon: <FaRecycle /> },
+    { key: 'dayPassVendidos', label: 'Day Pass Vendidos', unit: '', path: d => d?.dayPassVendidosCantidad, color: '#cd003b', icon: <FaTicketAlt /> },
+    { key: 'litrosAceite', label: 'Litros Aceite Salida', unit: 'L', path: d => d?.litrosAceiteSalidaAlmacen, color: '#00a09d', icon: <FaOilCan /> },
+    { key: 'reciclablesElectronicosPeso', label: 'Electrónicos Reciclados', unit: 'kg', path: d => d?.reciclablesElectronicosPeso, color: '#03105e', icon: <FaMobileAlt /> },
   ],
 }
 
@@ -143,17 +146,17 @@ const GROUP_SECTIONS = {
   'Contraloría': [{ title: 'Indicadores Contraloría', keys: METRIC_DEFS['Contraloría'].map(m => m.key) }],
 }
 
-/* ───────────────────────── Componentes ───────────────────────── */
+/* ───────────────────────── Componentes Premium ───────────────────────── */
 
 const FilterDropdown = ({ label, options, value, onChange, allLabel = 'Todos' }) => (
   <div className="flex flex-col gap-1.5">
-    <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{label}</label>
+    <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">{label}</label>
     <select
       value={value}
       onChange={e => onChange(e.target.value)}
       className="bg-white border border-slate-200 text-slate-700 rounded-xl px-3 py-2.5 text-sm
-                 focus:ring-2 focus:ring-teal-200 focus:border-teal-400 outline-none transition-all
-                 cursor-pointer shadow-sm hover:border-teal-300"
+                 focus:ring-2 focus:ring-[#00a09d]/20 focus:border-[#00a09d] outline-none transition-all
+                 cursor-pointer shadow-sm hover:border-[#00a09d]/50 font-medium"
     >
       <option value="">{allLabel}</option>
       {options.map(o => <option key={o} value={o}>{o}</option>)}
@@ -161,36 +164,47 @@ const FilterDropdown = ({ label, options, value, onChange, allLabel = 'Todos' })
   </div>
 )
 
+const getBgColor = (hex) => {
+  if (hex === '#ffae00') return 'rgba(255, 174, 0, 0.08)'
+  if (hex === '#76777a') return 'rgba(118, 119, 122, 0.08)'
+  if (hex === '#00a09d') return 'rgba(0, 160, 157, 0.08)'
+  if (hex === '#03105e') return 'rgba(3, 16, 94, 0.08)'
+  if (hex === '#cd003b') return 'rgba(205, 0, 59, 0.08)'
+  return 'rgba(0, 160, 157, 0.08)'
+}
+
 const KpiCard = ({ icon, label, value, unit, color, animDelay = 0 }) => (
   <div
-    className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 flex flex-col gap-2
-               hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+    className="bg-white rounded-2xl border border-slate-200/50 shadow-sm p-5 flex items-center justify-between gap-4
+               hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 group"
     style={{ animationDelay: `${animDelay}ms` }}
   >
-    <div className="flex items-center gap-2">
-      <span className="text-xl">{icon}</span>
-      <span className="text-xs font-medium text-slate-400 uppercase tracking-wider leading-tight">{label}</span>
+    <div className="flex flex-col gap-1 min-w-0">
+      <span className="text-xs font-bold text-slate-400 uppercase tracking-wider leading-tight group-hover:text-slate-500 transition-colors truncate block" title={label}>{label}</span>
+      <div className="flex items-baseline gap-1 mt-1 truncate">
+        <span className="text-2xl font-black tracking-tight" style={{ color }}>{value.toLocaleString('es-MX', { maximumFractionDigits: 1 })}</span>
+        {unit && <span className="text-xs font-bold text-slate-400 ml-1">{unit}</span>}
+      </div>
     </div>
-    <div className="flex items-baseline gap-1.5">
-      <span className="text-2xl font-bold" style={{ color }}>{value.toLocaleString('es-MX', { maximumFractionDigits: 1 })}</span>
-      {unit && <span className="text-xs text-slate-400">{unit}</span>}
+    <div className="w-12 h-12 rounded-2xl flex-shrink-0 flex items-center justify-center text-xl shadow-sm transition-transform duration-300 group-hover:scale-105" style={{ color: color, backgroundColor: getBgColor(color) }}>
+      {icon}
     </div>
   </div>
 )
 
 const SectionTitle = ({ icon, children }) => (
-  <div className="flex items-center gap-3 mt-8 mb-4">
-    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-teal-500 to-teal-600 flex items-center justify-center text-white text-sm shadow-sm">
+  <div className="flex items-center gap-3 mt-10 mb-5">
+    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#03105e] to-[#00a09d] flex items-center justify-center text-white text-sm shadow-md shadow-[#00a09d]/20 flex-shrink-0">
       {icon}
     </div>
-    <h3 className="text-lg font-bold text-slate-700">{children}</h3>
-    <div className="flex-1 h-px bg-gradient-to-r from-teal-100 to-transparent" />
+    <h3 className="text-lg font-extrabold text-slate-700 tracking-tight">{children}</h3>
+    <div className="flex-1 h-px bg-gradient-to-r from-[#00a09d]/20 to-transparent" />
   </div>
 )
 
 const ChartCard = ({ title, children }) => (
-  <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 hover:shadow-md transition-shadow duration-300">
-    <h4 className="text-sm font-semibold text-slate-600 mb-4">{title}</h4>
+  <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-6 hover:shadow-md transition-all duration-300">
+    <h4 className="text-xs font-bold text-slate-400 tracking-wider uppercase border-b border-slate-100 pb-3 mb-5 leading-none">{title}</h4>
     {children}
   </div>
 )
@@ -198,15 +212,19 @@ const ChartCard = ({ title, children }) => (
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-white/95 backdrop-blur-sm rounded-xl shadow-lg border border-slate-100 p-3 text-xs">
-      <p className="font-semibold text-slate-700 mb-1.5">{label}</p>
-      {payload.map((p, i) => (
-        <div key={i} className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full" style={{ background: p.color }} />
-          <span className="text-slate-500">{p.name}:</span>
-          <span className="font-semibold text-slate-700">{Number(p.value).toLocaleString('es-MX', { maximumFractionDigits: 1 })}</span>
-        </div>
-      ))}
+    <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-200/80 p-4 text-xs font-medium">
+      <p className="font-bold text-slate-700 mb-2 border-b border-slate-100 pb-1.5">{label}</p>
+      <div className="space-y-1.5">
+        {payload.map((p, i) => (
+          <div key={i} className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: p.color }} />
+              <span className="text-slate-500 font-semibold">{p.name}:</span>
+            </div>
+            <span className="font-bold text-slate-800">{Number(p.value).toLocaleString('es-MX', { maximumFractionDigits: 1 })}</span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -218,7 +236,6 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true)
 
   // filtros
-  const [fGrupo, setFGrupo] = useState('')
   const [fHotel, setFHotel] = useState('')
   const [fAno, setFAno] = useState('')
   const [fMes, setFMes] = useState('')
@@ -248,12 +265,11 @@ const Dashboard = () => {
   /* ─── datos filtrados ─── */
   const filtered = useMemo(() => {
     let d = rawData
-    if (fGrupo) d = d.filter(r => r.grupo === fGrupo)
     if (fHotel) d = d.filter(r => r.hotel === fHotel)
     if (fAno) d = d.filter(r => r.ano === fAno)
     if (fMes) d = d.filter(r => r.mes === fMes)
     return d
-  }, [rawData, fGrupo, fHotel, fAno, fMes])
+  }, [rawData, fHotel, fAno, fMes])
 
   /* ─── datos por grupo activo ─── */
   const grupoData = useMemo(() => filtered.filter(r => r.grupo === tabGrupo), [filtered, tabGrupo])
@@ -319,44 +335,48 @@ const Dashboard = () => {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-teal-200 border-t-teal-600 rounded-full animate-spin" />
-          <p className="text-slate-500 text-sm font-medium">Cargando datos del dashboard…</p>
+          <div className="w-12 h-12 border-4 border-slate-200 border-t-[#00a09d] rounded-full animate-spin" />
+          <p className="text-slate-500 text-sm font-semibold">Cargando datos del dashboard…</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="bg-slate-50 py-8 px-4 md:px-8 font-sans min-h-full">
+    <div className="bg-slate-50/50 py-8 px-4 md:px-8 font-sans min-h-full">
       <div className="max-w-7xl w-full mx-auto space-y-6">
 
-        {/* ══════ Header ══════ */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">
+        {/* ══════ Header Premium Minimalista ══════ */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/60 pb-5">
+          <div className="space-y-1">
+            <h1 className="text-2xl md:text-3xl font-black text-slate-800 tracking-tight">
               Dashboard de Sostenibilidad
             </h1>
-            <p className="text-sm text-slate-500 mt-1">Métricas y comparativas de indicadores registrados</p>
+            <p className="text-xs text-slate-500 font-semibold">
+              Análisis y monitoreo histórico de indicadores ambientales y sociales
+            </p>
           </div>
-          <div className="flex items-center gap-3 text-xs text-slate-400">
-            <span className="inline-flex items-center gap-1.5 bg-teal-50 text-teal-700 px-3 py-1.5 rounded-full font-medium">
-              <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse" />
-              {resumen.totalRegistros} registros
+          
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 bg-[#00a09d]/8 text-[#00a09d] px-3.5 py-2 rounded-2xl font-bold text-xs border border-[#00a09d]/20 shadow-sm shadow-slate-100/50">
+              <span className="w-2 h-2 bg-[#00a09d] rounded-full animate-pulse" />
+              {resumen.totalRegistros} Registros
             </span>
-            <span className="bg-slate-100 px-3 py-1.5 rounded-full">{resumen.hotelesUnicos} hoteles</span>
+            <span className="inline-flex items-center bg-white text-slate-600 px-3.5 py-2 rounded-2xl font-bold text-xs border border-slate-200 shadow-sm shadow-slate-100/50">
+              {resumen.hotelesUnicos} Hoteles Activos
+            </span>
           </div>
         </div>
 
         {/* ══════ Filtros ══════ */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-          <div className="flex items-center gap-2 mb-4">
-            <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+        <div className="bg-white p-6 rounded-3xl border border-slate-200/60 shadow-sm shadow-slate-100/50">
+          <div className="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
+            <svg className="w-4 h-4 text-[#00a09d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
-            <span className="text-sm font-semibold text-slate-600">Filtros</span>
+            <span className="text-sm font-bold text-slate-700 tracking-tight">Filtros de Búsqueda</span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <FilterDropdown label="Grupo" options={GRUPOS} value={fGrupo} onChange={setFGrupo} />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <FilterDropdown label="Hotel" options={HOTELES} value={fHotel} onChange={setFHotel} />
             <FilterDropdown label="Año" options={ANOS} value={fAno} onChange={setFAno} />
             <FilterDropdown label="Mes" options={MESES} value={fMes} onChange={setFMes} />
@@ -364,15 +384,15 @@ const Dashboard = () => {
         </div>
 
         {/* ══════ Tabs de Grupo ══════ */}
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
           {GRUPOS.map(g => (
             <button
               key={g}
               onClick={() => setTabGrupo(g)}
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-200 ${
+              className={`px-6 py-3 rounded-2xl text-sm font-bold whitespace-nowrap transition-all duration-300 ${
                 tabGrupo === g
-                  ? 'bg-gradient-to-r from-teal-600 to-teal-500 text-white shadow-md shadow-teal-200/50'
-                  : 'bg-white text-slate-500 border border-slate-200 hover:border-teal-300 hover:text-teal-600'
+                  ? 'bg-gradient-to-r from-[#03105e] to-[#00a09d] text-white shadow-md shadow-[#00a09d]/20 scale-[1.01]'
+                  : 'bg-white text-slate-600 border border-slate-200/80 hover:border-[#00a09d] hover:text-[#00a09d]'
               }`}
             >
               {g}
@@ -382,13 +402,13 @@ const Dashboard = () => {
 
         {/* ══════ Sin datos ══════ */}
         {grupoData.length === 0 && (
-          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-12 text-center">
-            <div className="mx-auto w-14 h-14 bg-slate-50 rounded-full flex items-center justify-center text-slate-400 mb-4">
+          <div className="bg-white rounded-3xl border border-slate-200/60 shadow-sm p-16 text-center">
+            <div className="mx-auto w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 mb-4 border border-slate-100">
               <FaInbox className="text-2xl" />
             </div>
-            <h3 className="font-semibold text-slate-700 text-lg">Sin datos disponibles</h3>
-            <p className="text-sm text-slate-400 mt-1 max-w-sm mx-auto">
-              No se encontraron registros para <strong>{tabGrupo}</strong> con los filtros seleccionados.
+            <h3 className="font-extrabold text-slate-800 text-lg tracking-tight">Sin registros disponibles</h3>
+            <p className="text-sm text-slate-400 mt-2 max-w-xs mx-auto">
+              No se encontraron registros de <strong>{tabGrupo}</strong> con los criterios seleccionados.
             </p>
           </div>
         )}
@@ -399,9 +419,9 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
               <ChartCard title={`Registros por Hotel — ${tabGrupo}`}>
                 <ResponsiveContainer width="100%" height={220}>
-                  <PieChart>
+                  <PieChart margin={{ left: 15, right: 10, top: 0, bottom: 0 }}>
                     <Pie
-                      data={pieData} cx="50%" cy="50%" innerRadius={50} outerRadius={80}
+                      data={pieData} cx="40%" cy="50%" innerRadius={40} outerRadius={65}
                       paddingAngle={3} dataKey="value" nameKey="name"
                       stroke="none"
                     >
@@ -409,15 +429,22 @@ const Dashboard = () => {
                     </Pie>
                     <Tooltip content={<CustomTooltip />} />
                     <Legend
-                      wrapperStyle={{ fontSize: '11px' }}
-                      formatter={(v) => <span className="text-slate-500">{v}</span>}
+                      layout="vertical"
+                      align="right"
+                      verticalAlign="middle"
+                      wrapperStyle={{ fontSize: '9px', width: '45%', paddingLeft: '5px' }}
+                      formatter={(v) => (
+                        <span className="text-slate-500 font-bold whitespace-nowrap overflow-hidden text-ellipsis block max-w-[120px]" title={v}>
+                          {v}
+                        </span>
+                      )}
                     />
                   </PieChart>
                 </ResponsiveContainer>
               </ChartCard>
 
               {/* mini resumen del grupo */}
-              <div className="lg:col-span-2 grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {metrics.slice(0, 6).map((m, i) => (
                   <KpiCard
                     key={m.key}
@@ -444,7 +471,7 @@ const Dashboard = () => {
                   <SectionTitle icon={sectionIcon}>{section.title}</SectionTitle>
 
                   {/* KPI cards para esta sección */}
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {sectionMetrics.map((m, i) => (
                       <KpiCard
                         key={m.key}
@@ -459,22 +486,25 @@ const Dashboard = () => {
                   </div>
 
                   {/* Charts */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Bar: comparación por hotel */}
                     <ChartCard title={`${section.title} — Comparativa por Hotel`}>
-                      <ResponsiveContainer width="100%" height={280}>
-                        <BarChart data={barData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                      <ResponsiveContainer width="100%" height={320}>
+                        <BarChart data={barData} margin={{ top: 10, right: 10, left: 0, bottom: 45 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                           <XAxis
                             dataKey="hotel"
-                            tick={{ fontSize: 10, fill: '#94a3b8' }}
-                            tickFormatter={v => v?.length > 12 ? v.substring(0, 12) + '…' : v}
+                            tick={{ fontSize: 9, fill: '#64748b', fontWeight: 600 }}
+                            tickFormatter={v => v?.length > 15 ? v.substring(0, 15) + '…' : v}
+                            angle={-25}
+                            textAnchor="end"
+                            interval={0}
                           />
-                          <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} />
+                          <YAxis tick={{ fontSize: 9, fill: '#64748b', fontWeight: 600 }} />
                           <Tooltip content={<CustomTooltip />} />
-                          <Legend wrapperStyle={{ fontSize: '11px' }} />
+                          <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '15px' }} verticalAlign="bottom" />
                           {sectionMetrics.map(m => (
-                            <Bar key={m.key} dataKey={m.key} name={m.label} fill={m.color} radius={[4, 4, 0, 0]} />
+                            <Bar key={m.key} dataKey={m.key} name={m.label} fill={m.color} radius={[3, 3, 0, 0]} />
                           ))}
                         </BarChart>
                       </ResponsiveContainer>
@@ -482,17 +512,21 @@ const Dashboard = () => {
 
                     {/* Line: evolución mensual */}
                     <ChartCard title={`${section.title} — Evolución Mensual`}>
-                      <ResponsiveContainer width="100%" height={280}>
-                        <LineChart data={lineData} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+                      <ResponsiveContainer width="100%" height={320}>
+                        <LineChart data={lineData} margin={{ top: 10, right: 10, left: 0, bottom: 15 }}>
                           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                          <XAxis dataKey="mes" tick={{ fontSize: 10, fill: '#94a3b8' }} />
-                          <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} />
+                          <XAxis 
+                            dataKey="mes" 
+                            tick={{ fontSize: 9, fill: '#64748b', fontWeight: 600 }} 
+                            interval={Math.ceil(lineData.length / 8)}
+                          />
+                          <YAxis tick={{ fontSize: 9, fill: '#64748b', fontWeight: 600 }} />
                           <Tooltip content={<CustomTooltip />} />
-                          <Legend wrapperStyle={{ fontSize: '11px' }} />
+                          <Legend wrapperStyle={{ fontSize: '10px', paddingTop: '15px' }} verticalAlign="bottom" />
                           {sectionMetrics.map(m => (
                             <Line
                               key={m.key} type="monotone" dataKey={m.key} name={m.label}
-                              stroke={m.color} strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }}
+                              stroke={m.color} strokeWidth={2.5} dot={{ r: 2 }} activeDot={{ r: 4 }}
                             />
                           ))}
                         </LineChart>
@@ -506,8 +540,8 @@ const Dashboard = () => {
         )}
 
         {/* ══════ Footer ══════ */}
-        <div className="text-center text-xs text-slate-400 py-6">
-          Plataforma de Sostenibilidad · Dashboard generado con datos en tiempo real
+        <div className="text-center text-xs text-slate-400 py-8 border-t border-slate-200/50 mt-12 font-medium">
+          Plataforma de Sostenibilidad · Generado con Datos en Tiempo Real
         </div>
 
       </div>

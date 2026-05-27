@@ -183,10 +183,17 @@ const generateMockDatos = (grupo, hotel, ano, mes) => {
     };
     
     const aguas = {
-      pozo: rand(2000, 12000, 2),
-      red: rand(0, 4000, 2),
-      pipa: rand(0, 800, 2)
+      potable: rand(1500, 6000, 2),
+      pozos: rand(2000, 8000, 2),
+      osmosisProd: rand(1000, 5000, 2),
+      osmosisRechazo: rand(200, 1500, 2),
+      ptarPozo: rand(500, 3000, 2),
+      ptarRiego: rand(400, 2500, 2),
+      lavanderia: rand(300, 1800, 2),
+      retrolavados: rand(50, 400, 2)
     };
+    
+    const situacion = randChoice(['Si', 'No']);
     
     return {
       totalEnergia: totalE,
@@ -198,7 +205,7 @@ const generateMockDatos = (grupo, hotel, ano, mes) => {
       costoGasLP: rand(60000, 250000),
       fuenteAguaPotable: 'Pozos profundos autorizados y red municipal',
       agua: aguas,
-      situacionLectura: 'Lectura mensual de medidores realizada de manera correcta.',
+      situacionLectura: situacion,
       volumenSargazo: randChoice([null, rand(20, 180, 2)]),
       archivos: {
         recibosElectricidad: [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/recibosElectricidad/recibo_cfe.pdf`],
@@ -211,7 +218,7 @@ const generateMockDatos = (grupo, hotel, ano, mes) => {
         facturasLena: [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/facturasLena/factura_lena.pdf`],
         facturasCarbon: [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/facturasCarbon/factura_carbon.pdf`],
         bitacoraAgua: [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/bitacoraAgua/bitacora_agua.xlsx`],
-        evidenciaReporteGestores: [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/evidenciaReporteGestores/gestores.pdf`],
+        evidenciaReporteGestores: situacion === 'Si' ? [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/evidenciaReporteGestores/gestores.pdf`] : [],
         reporteEnergeticos: [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/reporteEnergeticos/reporte_mensual.pdf`],
         manifiestoGrasaCarcamos: [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/manifiestoGrasaCarcamos/carcamos.pdf`],
         manifiestoGrasaCampanas: [`${cleanHotel}/${cleanGrupo}/${ano}/${mes}/manifiestoGrasaCampanas/campanas.pdf`],
